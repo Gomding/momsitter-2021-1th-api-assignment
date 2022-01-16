@@ -1,14 +1,13 @@
 package com.momsitter.domain;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class Account {
     private Long id;
     private String name;
     private LocalDate dateOfBirth;
     private Gender gender;
-    private String accountId;
+    private AccountId accountId;
     private String password;
     private String email;
 
@@ -20,7 +19,7 @@ public class Account {
         private String name;
         private LocalDate dateOfBirth;
         private Gender gender;
-        private String accountId;
+        private AccountId accountId;
         private String password;
         private String email;
 
@@ -44,7 +43,7 @@ public class Account {
             return this;
         }
 
-        public Builder accountId(String accountId) {
+        public Builder accountId(AccountId accountId) {
             this.accountId = accountId;
             return this;
         }
@@ -72,17 +71,6 @@ public class Account {
         this.accountId = builder.accountId;
         this.password = builder.password;
         this.email = builder.email;
-        validateAccountId(this.accountId);
-    }
-
-    public void validateAccountId(String accountId) {
-        Objects.requireNonNull(accountId, "사용자의 계정 ID는 null일 수 없습니다.");
-        if (accountId.length() < 6 || accountId.length() > 20) {
-            throw new IllegalArgumentException("사용자의 계정 ID는 6글자 이상 20글자 이하여야 합니다.");
-        }
-        if (accountId.contains(" ")) {
-            throw new IllegalArgumentException("사용자의 계정 ID는 공백을 포함할 수 없습니다.");
-        }
     }
 
     public Long getId() {
@@ -101,7 +89,7 @@ public class Account {
         return gender;
     }
 
-    public String getAccountId() {
+    public AccountId getAccountId() {
         return accountId;
     }
 
