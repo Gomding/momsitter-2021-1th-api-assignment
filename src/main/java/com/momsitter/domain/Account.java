@@ -8,7 +8,7 @@ public class Account {
     private LocalDate dateOfBirth;
     private Gender gender;
     private AccountId accountId;
-    private String password;
+    private Password password;
     private String email;
 
     protected Account() {
@@ -20,7 +20,7 @@ public class Account {
         private LocalDate dateOfBirth;
         private Gender gender;
         private AccountId accountId;
-        private String password;
+        private Password password;
         private String email;
 
         public Builder id(Long id) {
@@ -48,8 +48,8 @@ public class Account {
             return this;
         }
 
-        public Builder password(String passwod) {
-            this.password = passwod;
+        public Builder password(Password password) {
+            this.password = password;
             return this;
         }
 
@@ -93,7 +93,7 @@ public class Account {
         return accountId;
     }
 
-    public String getPassword() {
+    public Password getPassword() {
         return password;
     }
 

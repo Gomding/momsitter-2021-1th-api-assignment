@@ -16,13 +16,13 @@ public class AccountTest {
     final LocalDate defaultDateOfBirth = LocalDate.parse("19920530", DateTimeFormatter.ofPattern("yyyyMMdd"));
     final Gender defaultGender = Gender.MALE;
     final AccountId defaultAccountId = new AccountId("momsitter2022");
-    final String defaultPassword = "momsitterpw!@";
+    final Password defaultPassword = new Password("momsitter123!@");
     final String defaultEmail = "momsitter@gmail.com";
 
-    @DisplayName("사용자 객체 생성을 테스트한다.")
+    @DisplayName("회원 객체 생성을 테스트한다.")
     @Nested
     class CreateTest {
-        @DisplayName("사용자 객체 정상적으로 생성한다.")
+        @DisplayName("회원 객체 정상적으로 생성한다.")
         @Test
         void create() {
             // when
