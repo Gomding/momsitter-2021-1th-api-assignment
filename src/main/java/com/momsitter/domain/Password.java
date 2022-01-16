@@ -18,9 +18,9 @@ public class Password {
 
     public Password(String value) {
         this.value = Objects.requireNonNull(value, NULL_EXCEPTION_MESSAGE);
-        validateContainsBlank(value);
-        validateLength(value.length());
-        validatePattern(value);
+        validateLength(this.value.length());
+        validateContainsBlank(this.value);
+        validatePattern(this.value);
     }
 
     private void validateContainsBlank(String value) {
