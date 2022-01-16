@@ -4,13 +4,13 @@ public enum Gender {
     MALE("남"),
     FEMALE("여");
 
-    private String value;
+    private final String genderName;
 
-    Gender(String value) {
-        this.value = value;
+    Gender(String genderName) {
+        this.genderName = genderName;
     }
 
-    public String getValue() {
-        return value;
+    public String getGenderName() {
+        return genderName;
     }
 }
