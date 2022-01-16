@@ -23,21 +23,18 @@ public class AccountId {
     }
 
     private void validateLength(int length) {
-        if (length < MIN_LENGTH || length > MAX_LENGTH) {
+        if (length < MIN_LENGTH || length > MAX_LENGTH)
             throw new IllegalArgumentException(String.format(LENGTH_EXCEPTION_MESSAGE_FORMAT, length));
-        }
     }
 
     private void validateContainsBlank(String value) {
-        if (value.contains(BLANK)) {
+        if (value.contains(BLANK))
             throw new IllegalArgumentException(BLANK_EXCEPTION_MESSAGE);
-        }
     }
 
     private void validatePattern(String value) {
-        if (!PATTERN.matcher(value).matches()) {
+        if (!PATTERN.matcher(value).matches())
             throw new IllegalArgumentException(PATTERN_EXCEPTION_MESSAGE);
-        }
     }
 
     public String getValue() {
