@@ -9,8 +9,11 @@ public class AccountId {
     public static final String BLANK_EXCEPTION_MESSAGE = "사용자의 계정 ID는 공백을 포함할 수 없습니다.";
     public static final String PATTERN_EXCEPTION_MESSAGE = "사용자의 계정 ID는 영어 또는 숫자만 입력 가능합니다.";
     public static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9]*$");
+    private static final int MIN_LENGTH = 6;
+    private static final int MAX_LENGTH = 20;
+    private static final String BLANK = " ";
 
-    private String value;
+    private final String value;
 
     public AccountId(String value) {
         this.value = Objects.requireNonNull(value, NULL_EXCEPTION_MESSAGE);
@@ -26,13 +29,13 @@ public class AccountId {
     }
 
     private void validateLength(int length) {
-        if (length < 6 || length > 20) {
+        if (length < MIN_LENGTH || length > MAX_LENGTH) {
             throw new IllegalArgumentException(String.format(LENGTH_EXCEPTION_MESSAGE_FORMAT, length));
         }
     }
 
     private void validateContainBlank(String value) {
-        if (value.contains(" ")) {
+        if (value.contains(BLANK)) {
             throw new IllegalArgumentException(BLANK_EXCEPTION_MESSAGE);
         }
     }
