@@ -1,8 +1,11 @@
 package com.momsitter.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class Name {
     public static final String NULL_EXCEPTION_MESSAGE = "이름은 null일 수 없습니다.";
     public static final String BLANK_EXCEPTION_MESSAGE = "이름은 공백을 포함할 수 없습니다.";
@@ -11,7 +14,11 @@ public class Name {
     private static final Pattern PATTERN = Pattern.compile("^(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).*$");
     private static final String BLANK = " ";
 
-    private final String value;
+    @Column(name = "name", nullable = false)
+    private String value;
+
+    protected Name() {
+    }
 
     public Name(String value) {
         this.value = Objects.requireNonNull(value, NULL_EXCEPTION_MESSAGE);

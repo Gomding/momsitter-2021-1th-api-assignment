@@ -1,8 +1,11 @@
 package com.momsitter.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class AccountId {
     public static final String NULL_EXCEPTION_MESSAGE = "아이디는 null일 수 없습니다.";
     public static final String LENGTH_EXCEPTION_MESSAGE_FORMAT = "아이디는 6글자 이상 20글자 이하여야 합니다.(현재 길이 : %d)";
@@ -14,7 +17,11 @@ public class AccountId {
     private static final String BLANK = " ";
     private static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9]*$");
 
-    private final String value;
+    @Column(name = "account_id", nullable = false)
+    private String value;
+
+    protected AccountId() {
+    }
 
     public AccountId(String value) {
         this.value = Objects.requireNonNull(value, NULL_EXCEPTION_MESSAGE);

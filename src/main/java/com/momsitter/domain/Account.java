@@ -1,19 +1,41 @@
 package com.momsitter.domain;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
 public class Account {
     public static final String SITTER_NULL_EXCEPTION_MESSAGE = "시터로 등록시 시터 정보는 null이 될 수 없습니다.";
     public static final String PARENT_NULL_EXCEPTION_MESSAGE = "부모로 등록시 부모 정보는 null이 될 수 없습니다.";
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Embedded
     private Name name;
+
+    @Embedded
     private DateOfBirth dateOfBirth;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @Embedded
     private AccountId accountId;
+
+    @Embedded
     private Password password;
+
+    @Embedded
     private Email email;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "id")
     private SitterInfo sitterInfo;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "id")
     private ParentInfo parentInfo;
 
     protected Account() {

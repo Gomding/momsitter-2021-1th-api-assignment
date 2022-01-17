@@ -1,8 +1,11 @@
 package com.momsitter.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class Email {
     public static final String NULL_EXCEPTION_MESSAGE = "이메일은 null일 수 없습니다.";
     public static final String LOCAL_LENGTH_EXCEPTION_MESSAGE = "이메일의 로컬 부분은 64자를 초과할 수 없습니다.";
@@ -18,7 +21,11 @@ public class Email {
     private static final Pattern PATTERN =
             Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9]+\\.[a-zA-Z]+$");
 
-    private final String value;
+    @Column(name = "email", nullable = false)
+    private String value;
+
+    protected Email() {
+    }
 
     public Email(String value) {
         this.value = Objects.requireNonNull(value, NULL_EXCEPTION_MESSAGE);

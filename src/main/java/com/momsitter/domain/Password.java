@@ -1,8 +1,13 @@
 package com.momsitter.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class Password {
     public static final String NULL_EXCEPTION_MESSAGE = "비밀번호는 null일 수 없습니다.";
     public static final String LENGTH_EXCEPTION_MESSAGE = "비밀번호는 6글자 이상 16글자 이하여야 합니다.";
@@ -15,7 +20,12 @@ public class Password {
     private static final Pattern PATTERN =
             Pattern.compile("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\\-_=+]).*$");
 
-    private final String value;
+    @Column(name = "password")
+    @JsonIgnore
+    private String value;
+
+    protected Password() {
+    }
 
     public Password(String value) {
         this.value = Objects.requireNonNull(value, NULL_EXCEPTION_MESSAGE);
