@@ -1,13 +1,20 @@
 package com.momsitter.domain;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
 public class SitterInfo {
     public static final String CARE_AGE_RANGE_NULL_EXCEPTION_MESSAGE = "케어 가능 연령 범위는 null이 될 수 없습니다.";
     public static final String ABOUT_ME_NULL_EXCEPTION_MESSAGE = "자기 소개는 null이 될 수 없습니다.";
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Embedded
     private CareAgeRange careAgeRange;
+
+    @Lob
     private String aboutMe;
 
     protected SitterInfo() {
