@@ -1,6 +1,10 @@
 package com.momsitter.domain;
 
+import java.util.Objects;
+
 public class Account {
+    public static final String SITTER_NULL_EXCEPTION_MESSAGE = "시터로 등록시 시터 정보는 null이 될 수 없습니다.";
+
     private Long id;
     private Name name;
     private DateOfBirth dateOfBirth;
@@ -8,6 +12,7 @@ public class Account {
     private AccountId accountId;
     private Password password;
     private Email email;
+    private SitterInfo sitterInfo;
 
     protected Account() {
     }
@@ -71,6 +76,10 @@ public class Account {
         this.email = builder.email;
     }
 
+    public void registerSitter(SitterInfo sitterInfo) {
+        this.sitterInfo = Objects.requireNonNull(sitterInfo, SITTER_NULL_EXCEPTION_MESSAGE);
+    }
+
     public Long getId() {
         return id;
     }
@@ -97,5 +106,9 @@ public class Account {
 
     public Email getEmail() {
         return email;
+    }
+
+    public SitterInfo getSitterInfo() {
+        return sitterInfo;
     }
 }
