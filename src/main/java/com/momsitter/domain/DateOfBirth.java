@@ -1,6 +1,7 @@
 package com.momsitter.domain;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ public class DateOfBirth {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     @Column(name = "date_of_birth", nullable = false)
+    @Convert(converter = LocalDateAttributeConverter.class)
     private LocalDate value;
 
     protected DateOfBirth() {
