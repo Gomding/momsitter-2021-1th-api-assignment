@@ -1,12 +1,23 @@
 package com.momsitter.domain;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
 public class Child {
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Embedded
     private DateOfBirth dateOfBirth;
+
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private ParentInfo parent;
 
     protected Child() {
     }
@@ -31,6 +42,10 @@ public class Child {
 
     public Gender getGender() {
         return gender;
+    }
+
+    public ParentInfo getParent() {
+        return parent;
     }
 
     @Override

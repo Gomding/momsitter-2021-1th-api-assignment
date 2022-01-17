@@ -1,16 +1,23 @@
 package com.momsitter.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class ParentInfo {
     public static final String CARE_REQUEST_INFO_NULL_EXCEPTION_MESSAGE = "돌봄 신청 정보는 null이 될 수 없습니다.";
     public static final String CHILDREN_NULL_EXCEPTION_MESSAGE = "아이 정보는 null이 될 수 없습니다.";
 
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private List<Child> children = new ArrayList<>();
+
+    @Lob
     private String careRequestInfo;
 
     protected ParentInfo() {

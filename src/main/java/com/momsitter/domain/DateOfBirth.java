@@ -1,10 +1,13 @@
 package com.momsitter.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+@Embeddable
 public class DateOfBirth {
     public static final String INVALID_DATE_TIME_EXCEPTION_MESSAGE = "유효하지 않은 월[1-12],일[1-31]입니다.";
     public static final String NULL_EXCEPTION_MESSAGE = "생년월일은 null일 수 없습니다.";
@@ -12,7 +15,11 @@ public class DateOfBirth {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-    private final LocalDate value;
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDate value;
+
+    protected DateOfBirth() {
+    }
 
     public DateOfBirth(LocalDate value) {
         this.value = Objects.requireNonNull(value, NULL_EXCEPTION_MESSAGE);
