@@ -14,7 +14,7 @@ public class AccountTest {
     final Gender defaultGender = Gender.MALE;
     final AccountId defaultAccountId = new AccountId("momsitter2022");
     final Password defaultPassword = new Password("momsitter123!@");
-    final String defaultEmail = "momsitter@gmail.com";
+    final Email defaultEmail = new Email("momsitter@gmail.com");
 
     @DisplayName("회원 객체 생성을 테스트한다.")
     @Nested
@@ -35,11 +35,11 @@ public class AccountTest {
             // then
             assertThat(account.getId()).isNull();
             assertThat(account.getName()).isEqualTo(defaultName);
-            assertThat(account.getDateOfBirth()).isEqualTo(defaultDateOfBirth);
-            assertThat(account.getGender()).isEqualTo(defaultGender);
+            assertThat(account.getDateOfBirth()).isEqualTo(new DateOfBirth(defaultDateOfBirth.getValue()));
+            assertThat(account.getGender()).isEqualTo(Gender.valueOf(defaultGender.name()));
             assertThat(account.getAccountId()).isEqualTo(new AccountId(defaultAccountId.getValue()));
-            assertThat(account.getPassword()).isEqualTo(defaultPassword);
-            assertThat(account.getEmail()).isEqualTo(defaultEmail);
+            assertThat(account.getPassword()).isEqualTo(new Password(defaultPassword.getValue()));
+            assertThat(account.getEmail()).isEqualTo(new Email(defaultEmail.getValue()));
         }
     }
 }

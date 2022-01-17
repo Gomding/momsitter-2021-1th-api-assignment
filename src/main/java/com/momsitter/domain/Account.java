@@ -1,7 +1,5 @@
 package com.momsitter.domain;
 
-import java.time.LocalDate;
-
 public class Account {
     private Long id;
     private String name;
@@ -9,7 +7,7 @@ public class Account {
     private Gender gender;
     private AccountId accountId;
     private Password password;
-    private String email;
+    private Email email;
 
     protected Account() {
     }
@@ -21,7 +19,7 @@ public class Account {
         private Gender gender;
         private AccountId accountId;
         private Password password;
-        private String email;
+        private Email email;
 
         public Builder id(Long id) {
             this.id = id;
@@ -53,7 +51,7 @@ public class Account {
             return this;
         }
 
-        public Builder email(String email) {
+        public Builder email(Email email) {
             this.email = email;
             return this;
         }
@@ -97,7 +95,7 @@ public class Account {
         return password;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 }
