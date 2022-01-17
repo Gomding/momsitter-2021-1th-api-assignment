@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Account {
     public static final String SITTER_NULL_EXCEPTION_MESSAGE = "시터로 등록시 시터 정보는 null이 될 수 없습니다.";
+    public static final String PARENT_NULL_EXCEPTION_MESSAGE = "부모로 등록시 부모 정보는 null이 될 수 없습니다.";
 
     private Long id;
     private Name name;
@@ -13,6 +14,7 @@ public class Account {
     private Password password;
     private Email email;
     private SitterInfo sitterInfo;
+    private ParentInfo parentInfo;
 
     protected Account() {
     }
@@ -80,6 +82,10 @@ public class Account {
         this.sitterInfo = Objects.requireNonNull(sitterInfo, SITTER_NULL_EXCEPTION_MESSAGE);
     }
 
+    public void registerParent(ParentInfo parentInfo) {
+        this.parentInfo = Objects.requireNonNull(parentInfo, PARENT_NULL_EXCEPTION_MESSAGE);
+    }
+
     public Long getId() {
         return id;
     }
@@ -110,5 +116,9 @@ public class Account {
 
     public SitterInfo getSitterInfo() {
         return sitterInfo;
+    }
+
+    public ParentInfo getParentInfo() {
+        return parentInfo;
     }
 }
