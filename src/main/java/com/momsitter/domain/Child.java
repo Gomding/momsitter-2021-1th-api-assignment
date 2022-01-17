@@ -16,7 +16,7 @@ public class Child {
     private Gender gender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id", nullable = false)
     private ParentInfo parent;
 
     protected Child() {

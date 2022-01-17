@@ -31,11 +31,11 @@ public class Account {
     private Email email;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id", nullable = true)
     private SitterInfo sitterInfo;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id", nullable = true)
     private ParentInfo parentInfo;
 
     protected Account() {
