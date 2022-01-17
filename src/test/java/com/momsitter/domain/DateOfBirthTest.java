@@ -86,7 +86,6 @@ public class DateOfBirthTest {
 
             // when
             DateOfBirth dateOfBirth = DateOfBirth.of(value);
-            System.out.println(dateOfBirth);
 
             // then
             assertThat(dateOfBirth).isEqualTo(DateOfBirth.of(value));
