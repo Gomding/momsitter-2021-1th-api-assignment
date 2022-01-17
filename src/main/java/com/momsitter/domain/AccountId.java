@@ -8,10 +8,11 @@ public class AccountId {
     public static final String LENGTH_EXCEPTION_MESSAGE_FORMAT = "아이디는 6글자 이상 20글자 이하여야 합니다.(현재 길이 : %d)";
     public static final String BLANK_EXCEPTION_MESSAGE = "아이디는 공백을 포함할 수 없습니다.";
     public static final String PATTERN_EXCEPTION_MESSAGE = "아이디는 영어 또는 숫자만 입력 가능합니다.";
-    public static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9]*$");
+
     private static final int MIN_LENGTH = 6;
     private static final int MAX_LENGTH = 20;
     private static final String BLANK = " ";
+    private static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9]*$");
 
     private final String value;
 

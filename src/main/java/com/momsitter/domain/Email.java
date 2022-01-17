@@ -9,6 +9,7 @@ public class Email {
     public static final String DOMAIN_LENGTH_EXCEPTION_MESSAGE = "이메일은 도메인 부분은 255자를 초과할 수 없습니다.";
     public static final String BLANK_EXCEPTION_MESSAGE = "이메일은 공백을 포함할 수 없습니다.";
     public static final String PATTERN_EXCEPTION_MESSAGE = "이메일 형식에 맞게 입력해주세요";
+
     private static final int LOCAL_INDEX = 0;
     private static final int DOMAIN_INDEX = 1;
     private static final int LOCAL_MAX_LENGTH = 64;

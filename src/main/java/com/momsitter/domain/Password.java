@@ -8,11 +8,12 @@ public class Password {
     public static final String LENGTH_EXCEPTION_MESSAGE = "비밀번호는 6글자 이상 16글자 이하여야 합니다.";
     public static final String BLANK_EXCEPTION_MESSAGE = "비밀번호는 공백을 포함할 수 없습니다.";
     public static final String PATTERN_EXCEPTION_MESSAGE = "비밀번호는 영어,숫자,특수문자 3가지로 구성되어야 합니다.";
+
     private static final int MIN_LENGTH = 6;
     private static final int MAX_LENGTH = 16;
     private static final String BLANK = " ";
     private static final Pattern PATTERN =
-            Pattern.compile("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).*$");
+            Pattern.compile("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\\-_=+]).*$");
 
     private final String value;
 
