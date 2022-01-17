@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Account {
     private Long id;
     private String name;
-    private LocalDate dateOfBirth;
+    private DateOfBirth dateOfBirth;
     private Gender gender;
     private AccountId accountId;
     private Password password;
@@ -17,7 +17,7 @@ public class Account {
     public static class Builder {
         private Long id;
         private String name;
-        private LocalDate dateOfBirth;
+        private DateOfBirth dateOfBirth;
         private Gender gender;
         private AccountId accountId;
         private Password password;
@@ -33,7 +33,7 @@ public class Account {
             return this;
         }
 
-        public Builder dateOfBirth(LocalDate dateOfBirth) {
+        public Builder dateOfBirth(DateOfBirth dateOfBirth) {
             this.dateOfBirth = dateOfBirth;
             return this;
         }
@@ -81,7 +81,7 @@ public class Account {
         return name;
     }
 
-    public LocalDate getDateOfBirth() {
+    public DateOfBirth getDateOfBirth() {
         return dateOfBirth;
     }
 
