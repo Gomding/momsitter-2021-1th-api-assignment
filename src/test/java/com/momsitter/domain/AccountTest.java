@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Account 단위 테스트")
 public class AccountTest {
 
-    final String defaultName = "이름";
+    final Name defaultName = new Name("이름");
     final DateOfBirth defaultDateOfBirth = DateOfBirth.of("19920530");
     final Gender defaultGender = Gender.MALE;
     final AccountId defaultAccountId = new AccountId("momsitter2022");
@@ -34,7 +34,7 @@ public class AccountTest {
 
             // then
             assertThat(account.getId()).isNull();
-            assertThat(account.getName()).isEqualTo(defaultName);
+            assertThat(account.getName()).isEqualTo(new Name(defaultName.getValue()));
             assertThat(account.getDateOfBirth()).isEqualTo(new DateOfBirth(defaultDateOfBirth.getValue()));
             assertThat(account.getGender()).isEqualTo(Gender.valueOf(defaultGender.name()));
             assertThat(account.getAccountId()).isEqualTo(new AccountId(defaultAccountId.getValue()));

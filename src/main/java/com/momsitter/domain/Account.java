@@ -2,7 +2,7 @@ package com.momsitter.domain;
 
 public class Account {
     private Long id;
-    private String name;
+    private Name name;
     private DateOfBirth dateOfBirth;
     private Gender gender;
     private AccountId accountId;
@@ -14,7 +14,7 @@ public class Account {
 
     public static class Builder {
         private Long id;
-        private String name;
+        private Name name;
         private DateOfBirth dateOfBirth;
         private Gender gender;
         private AccountId accountId;
@@ -26,7 +26,7 @@ public class Account {
             return this;
         }
 
-        public Builder name(String name) {
+        public Builder name(Name name) {
             this.name = name;
             return this;
         }
@@ -75,7 +75,7 @@ public class Account {
         return id;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
