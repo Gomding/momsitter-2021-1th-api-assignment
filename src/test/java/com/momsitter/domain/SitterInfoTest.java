@@ -30,6 +30,18 @@ public class SitterInfoTest {
             assertThat(sitterInfo.getAboutMe()).isEqualTo(aboutMe);
         }
 
+        @DisplayName("SitterInfo 객체 생성 시 케어 가능 연령범위가 null이면 예외가 발생한다.")
+        @Test
+        void createCareAgeRangeIsNull() {
+            // given
+            final String aboutMe = "아이와 코딩 공부를 함께할 수 있습니다.";
+
+            // when then
+            assertThatThrownBy(() -> new SitterInfo(null, aboutMe))
+                    .isExactlyInstanceOf(NullPointerException.class)
+                    .hasMessage(CARE_AGE_RANGE_NULL_EXCEPTION_MESSAGE);
+        }
+
         @DisplayName("SitterInfo 객체 생성 시 자기 소개가 null이면 예외가 발생한다.")
         @Test
         void createAboutMeIsNull() {

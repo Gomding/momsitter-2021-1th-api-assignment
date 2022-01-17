@@ -39,6 +39,18 @@ public class ParentInfoTest {
             assertThat(parentInfo.getCareRequestInfo()).isEqualTo(careRequest);
         }
 
+        @DisplayName("돌봄 아이들 정보가 null이라면 예외가 발생한다.")
+        @Test
+        void createChildrenInfoIsNull() {
+            // given
+            String careRequest = "돌봄 신청할 아이가 없어서 null을 입력헀어요!";
+
+            // when then
+            assertThatThrownBy(() -> new ParentInfo(1L, null, careRequest))
+                    .isExactlyInstanceOf(NullPointerException.class)
+                    .hasMessage(ParentInfo.CHILDREN_NULL_EXCEPTION_MESSAGE);
+        }
+
         @DisplayName("돌봄 신청 내용(careRequestInfo)가 null이라면 예외가 발생한다.")
         @Test
         void createCareRequestInfoIsNull() {

@@ -3,6 +3,7 @@ package com.momsitter.domain;
 import java.util.Objects;
 
 public class SitterInfo {
+    public static final String CARE_AGE_RANGE_NULL_EXCEPTION_MESSAGE = "케어 가능 연령 범위는 null이 될 수 없습니다.";
     public static final String ABOUT_ME_NULL_EXCEPTION_MESSAGE = "자기 소개는 null이 될 수 없습니다.";
 
     private Long id;
@@ -18,7 +19,7 @@ public class SitterInfo {
 
     public SitterInfo(Long id, CareAgeRange careAgeRange, String aboutMe) {
         this.id = id;
-        this.careAgeRange = careAgeRange;
+        this.careAgeRange = Objects.requireNonNull(careAgeRange, CARE_AGE_RANGE_NULL_EXCEPTION_MESSAGE);
         this.aboutMe = Objects.requireNonNull(aboutMe, ABOUT_ME_NULL_EXCEPTION_MESSAGE);
     }
 
