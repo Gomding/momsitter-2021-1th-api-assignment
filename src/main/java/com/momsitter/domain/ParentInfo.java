@@ -14,13 +14,17 @@ public class ParentInfo {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parentInfo", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Child> children = new ArrayList<>();
 
     @Lob
     private String careRequestInfo;
 
     protected ParentInfo() {
+    }
+
+    public ParentInfo(String careRequestInfo) {
+        this(null, new ArrayList<>(), careRequestInfo);
     }
 
     public ParentInfo(List<Child> children, String careRequestInfo) {
@@ -31,6 +35,14 @@ public class ParentInfo {
         this.id = id;
         this.children = Objects.requireNonNull(children, CHILDREN_NULL_EXCEPTION_MESSAGE);
         this.careRequestInfo = Objects.requireNonNull(careRequestInfo, CARE_REQUEST_INFO_NULL_EXCEPTION_MESSAGE);
+    }
+
+    public void addChild(Child child) {
+        if (this.children.contains(child)) {
+            return;
+        }
+        this.children.add(child);
+        child.addParentInfo(this);
     }
 
     public Long getId() {

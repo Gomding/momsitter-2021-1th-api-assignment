@@ -16,8 +16,8 @@ public class Child {
     private Gender gender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false)
-    private ParentInfo parent;
+    @JoinColumn(name = "parent_id")
+    private ParentInfo parentInfo;
 
     protected Child() {
     }
@@ -32,6 +32,13 @@ public class Child {
         this.gender = gender;
     }
 
+    public void addParentInfo(ParentInfo parentInfo) {
+        if (Objects.nonNull(this.parentInfo))
+            return;
+        this.parentInfo = parentInfo;
+        parentInfo.addChild(this);
+    }
+
     public Long getId() {
         return id;
     }
@@ -44,8 +51,8 @@ public class Child {
         return gender;
     }
 
-    public ParentInfo getParent() {
-        return parent;
+    public ParentInfo getParentInfo() {
+        return parentInfo;
     }
 
     @Override

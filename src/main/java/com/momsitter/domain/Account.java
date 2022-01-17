@@ -30,12 +30,12 @@ public class Account {
     @Embedded
     private Email email;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "sitter_info_id", nullable = true)
     private SitterInfo sitterInfo;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "id", nullable = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "parent_info_id", nullable = true)
     private ParentInfo parentInfo;
 
     protected Account() {
