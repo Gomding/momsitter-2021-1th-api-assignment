@@ -7,9 +7,11 @@ import com.momsitter.repository.ParentInfoRepository;
 import com.momsitter.repository.SitterInfoRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Profile("!test")
 @Transactional
 @Component
 public class DataLoader implements ApplicationRunner {
