@@ -1,5 +1,6 @@
 package com.momsitter.service;
 
+import com.momsitter.exception.DuplicateException;
 import com.momsitter.repository.AccountRepository;
 import com.momsitter.ui.account.dto.*;
 import org.junit.jupiter.api.DisplayName;
@@ -93,7 +94,7 @@ class AccountServiceTest {
 
             // when then
             assertThatThrownBy(() -> accountService.createSitterAccount(duplicateAccountIdRequest))
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .isExactlyInstanceOf(DuplicateException.class)
                     .hasMessage("이미 존재하는 계정 ID 입니다. 다른 계정 ID를 입력해주세요.");
         }
 
@@ -124,7 +125,7 @@ class AccountServiceTest {
 
             // when then
             assertThatThrownBy(() -> accountService.createSitterAccount(duplicateEmailRequest))
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .isExactlyInstanceOf(DuplicateException.class)
                     .hasMessage("입력하신 이메일로 가입한 계정이 이미 존재합니다.");
         }
     }
@@ -206,7 +207,7 @@ class AccountServiceTest {
             );
             // when then
             assertThatThrownBy(() -> accountService.createParentAccount(newRequest))
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .isExactlyInstanceOf(DuplicateException.class)
                     .hasMessage("이미 존재하는 계정 ID 입니다. 다른 계정 ID를 입력해주세요.");
         }
 
@@ -244,7 +245,7 @@ class AccountServiceTest {
             );
             // when
             assertThatThrownBy(() -> accountService.createParentAccount(newRequest))
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .isExactlyInstanceOf(DuplicateException.class)
                     .hasMessage("입력하신 이메일로 가입한 계정이 이미 존재합니다.");
         }
     }

@@ -1,5 +1,6 @@
 package com.momsitter.domain;
 
+import com.momsitter.exception.InvalidArgumentException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ public class NameTest {
 
             // when then
             assertThatThrownBy(() -> new Name(value))
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .isExactlyInstanceOf(InvalidArgumentException.class)
                     .hasMessage(BLANK_EXCEPTION_MESSAGE);
         }
 
@@ -57,7 +58,7 @@ public class NameTest {
 
             // when then
             assertThatThrownBy(() -> new Name(value))
-                    .isExactlyInstanceOf(IllegalArgumentException.class)
+                    .isExactlyInstanceOf(InvalidArgumentException.class)
                     .hasMessage(INVALID_NAME_CHARACTER_EXCEPTION);
         }
     }

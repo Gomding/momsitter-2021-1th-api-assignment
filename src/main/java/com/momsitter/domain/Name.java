@@ -1,5 +1,7 @@
 package com.momsitter.domain;
 
+import com.momsitter.exception.InvalidArgumentException;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
@@ -28,12 +30,12 @@ public class Name {
 
     private void validateContainsBlank(String value) {
         if (value.contains(BLANK))
-            throw new IllegalArgumentException(BLANK_EXCEPTION_MESSAGE);
+            throw new InvalidArgumentException(BLANK_EXCEPTION_MESSAGE);
     }
 
     private void validateNestedInvalidCharacter(String value) {
         if (PATTERN.matcher(value).matches())
-            throw new IllegalArgumentException(INVALID_NAME_CHARACTER_EXCEPTION);
+            throw new InvalidArgumentException(INVALID_NAME_CHARACTER_EXCEPTION);
     }
 
     public String getValue() {
