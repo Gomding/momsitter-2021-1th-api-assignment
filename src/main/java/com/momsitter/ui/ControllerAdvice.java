@@ -23,6 +23,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException(Exception e) {
+        log.error(e.getMessage());
         StringBuilder sb = new StringBuilder();
         String[] spiltMessages = Arrays.toString(e.getStackTrace()).split(",");
         for (String splitMessage : spiltMessages) {

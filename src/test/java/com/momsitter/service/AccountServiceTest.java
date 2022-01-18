@@ -1,9 +1,13 @@
 package com.momsitter.service;
 
+import com.momsitter.domain.Account;
 import com.momsitter.exception.DuplicateException;
 import com.momsitter.exception.InvalidArgumentException;
+import com.momsitter.exception.InvalidStateException;
 import com.momsitter.repository.AccountRepository;
 import com.momsitter.ui.dto.account.*;
+import com.momsitter.ui.dto.account.parent.*;
+import com.momsitter.ui.dto.account.sitter.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,9 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @DisplayName("AccountService 통합 테스트")
 @ActiveProfiles("test")
@@ -291,35 +299,169 @@ class AccountServiceTest {
                     .isExactlyInstanceOf(InvalidArgumentException.class)
                     .hasMessage("존재하지 않는 회원입니다.");
         }
+    }
 
-        private SitterCreateResponse createSitterAccount() {
-            SitterCreateRequest request = new SitterCreateRequest(
-                    new AccountCreateRequest("박민영",
-                            LocalDate.of(1992, 5, 30),
-                            "남",
-                            "charlie123",
-                            "password12!@",
-                            "test@test.com"),
-                    new SitterInfoRequest(3, 6, "아이들을 좋아하고, 잘 돌봐유")
-            );
-            return accountService.createSitterAccount(request);
+    @DisplayName("회원의 내 정보 수정 테스트")
+    @Nested
+    class UpdateAccountInfoTest {
+
+        @DisplayName("회원의 내 정보 수정이 정상적으로 된다.")
+        @Test
+        void updateAccountInfo() {
+            // given
+            AccountResponse createdResponse = createSitterAccount().getAccount();
+            AccountUpdateRequest updateRequest = new AccountUpdateRequest("여", "updatepw123!", "update@test.com");
+
+            // when
+            accountService.updateAccountInfo(createdResponse.getId(), updateRequest);
+            Account account = accountRepository.findById(createdResponse.getId()).get();
+
+            // then
+            assertThat(account.getGender().getGenderName()).isNotEqualTo(createdResponse.getGender());
+            assertThat(account.getPassword().getValue()).isEqualTo("updatepw123!"); // 응답 객체에는 비밀번호가 없어서 문자열로 대체
+            assertThat(account.getEmail().getValue()).isNotEqualTo(createdResponse.getEmail());
         }
 
-        private ParentCreateResponse createParentAccount() {
-            ParentCreateRequest request = new ParentCreateRequest(
-                    new AccountCreateRequest("박민영",
-                            LocalDate.of(1992, 5, 30),
-                            "남",
-                            "charlie123",
-                            "password12!@",
-                            "test@test.com"),
-                    new ParentInfoRequest(
-                            Arrays.asList(new ChildRequest(LocalDate.of(2020, 5, 30), "남"),
-                                    new ChildRequest(LocalDate.of(2018, 3, 25), "여")),
-                            "매일 2시간정도 아이를 봐주실 시터님 구해요:)"
-                    )
-            );
-            return accountService.createParentAccount(request);
+        @DisplayName("수정 요청한 이메일이 이미 존재하는 이메일이라면 예외가 발생한다.(자신의 현재 이메일 같은 경우는 정상동작한다)")
+        @Test
+        void updateAccountInfoDuplicateEmail() {
+            // given
+            SitterCreateResponse createResponse = createSitterAccount();
+            ParentCreateResponse createResponse2 = createParentAccount();
+            AccountUpdateRequest updateRequest = new AccountUpdateRequest("여", "updatepw123!",
+                    createResponse2.getAccount().getEmail());
+
+            // when then
+            assertThatThrownBy(() -> accountService.updateAccountInfo(createResponse.getAccount().getId(), updateRequest))
+                    .isExactlyInstanceOf(DuplicateException.class)
+                    .hasMessage("입력하신 이메일로 가입한 계정이 이미 존재합니다.");
+            // 수정하는 회원의 email과 수정 요청한 email이 같으면 예외는 발생하지 않는다.
+            assertDoesNotThrow(() -> accountService.updateAccountInfo(createResponse2.getAccount().getId(), updateRequest));
         }
+    }
+
+    @DisplayName("시터 정보 수정 테스트")
+    @Nested
+    class UpdateSitterInfoTest {
+
+        @DisplayName("시터 정보 수정이 정상적으로 된다.")
+        @Test
+        void updateSitterInfo() {
+            // given
+            SitterCreateResponse createResponse = createSitterAccount();
+            SitterInfoResponse sitterInfo = createResponse.getSitterInfo();
+            SitterUpdateRequest updateRequest = new SitterUpdateRequest(
+                    sitterInfo.getMinCareAge() + 1,
+                    sitterInfo.getMaxCareAge() + 1,
+                    "더 잘한다는 걸 어필하기 위한 수정"
+            );
+
+            // when
+            SitterInfoResponse updateResponse = accountService.updateSitterInfo(createResponse.getAccount().getId(), updateRequest);
+
+            // then
+            assertThat(updateResponse.getMinCareAge()).isNotEqualTo(sitterInfo.getMinCareAge());
+            assertThat(updateResponse.getMaxCareAge()).isNotEqualTo(sitterInfo.getMaxCareAge());
+            assertThat(updateResponse.getAboutMe()).isNotEqualTo(sitterInfo.getAboutMe());
+        }
+
+        @DisplayName("시터 회원으로 등록되지 않은 회원은 시터 정보 수정 시 예외가 발생한다.")
+        @Test
+        void updateSitterInfoWithParentAccount() {
+            // given
+            ParentCreateResponse createResponse = createParentAccount();
+            SitterUpdateRequest updateRequest = new SitterUpdateRequest(4, 6, "자기소개 수정");
+
+            // when
+            assertThatThrownBy(() -> accountService.updateSitterInfo(createResponse.getAccount().getId(), updateRequest))
+                    .isExactlyInstanceOf(InvalidStateException.class)
+                    .hasMessage("시터회원으로 등록하지 않으면 시터회원 정보를 수정할 수 없습니다.");
+        }
+    }
+
+    @DisplayName("부모 정보 수정 테스트")
+    @Nested
+    class UpdateParentInfoTest {
+
+        @DisplayName("부모 정보 수정이 정상적으로 된다.")
+        @Test
+        void updateParentInfo() {
+            // given
+            ParentCreateResponse createResponse = createParentAccount();
+            ParentInfoResponse parentInfo = createResponse.getParentInfo();
+            List<ChildUpdateRequest> childUpdateRequests = parentInfo.getChildren().stream()
+                    .map(c -> new ChildUpdateRequest(c.getId(), c.getDateOfBirth().plusDays(1L), c.getGender()))
+                    .collect(Collectors.toList());
+            ParentUpdateRequest updateRequest = new ParentUpdateRequest(childUpdateRequests, "맘시터 서비스 너무 좋아요!");
+
+            // when
+            ParentInfoResponse updateResponse = accountService.updateParentInfo(createResponse.getAccount().getId(), updateRequest);
+
+            // then
+            assertThat(updateResponse.getId()).isEqualTo(parentInfo.getId());
+            assertThat(updateResponse.getChildren()).hasSize(parentInfo.getChildren().size());
+            assertThat(updateResponse.getCareRequestInfo()).isNotEqualTo(parentInfo.getCareRequestInfo());
+        }
+
+        @DisplayName("시터 회원으로 등록되지 않은 회원은 시터 정보 수정 시 예외가 발생한다.")
+        @Test
+        void updateParentInfoWithSitterAccount() {
+            // given
+            SitterCreateResponse createResponse = createSitterAccount();
+            List<ChildUpdateRequest> childUpdateRequests = Collections.emptyList();
+            ParentUpdateRequest updateRequest = new ParentUpdateRequest(childUpdateRequests, "맘시터 서비스 너무 좋아요!");
+
+            // when then
+            assertThatThrownBy(() -> accountService.updateParentInfo(createResponse.getAccount().getId(), updateRequest))
+                    .isExactlyInstanceOf(InvalidStateException.class)
+                    .hasMessage("부모회원으로 등록하지 않으면 부모회원 정보를 수정할 수 없습니다.");
+        }
+
+        @DisplayName("부모 정보 수정 시 등록된 아이의 고유 번호가 수정하려는 아이의 고유 번호와 일치하지 않으면 예외가 발생한다.")
+        @Test
+        void updateParentInfoDifferentChild() {
+            // given
+            ParentCreateResponse createResponse = createParentAccount();
+            ParentInfoResponse parentInfo = createResponse.getParentInfo();
+            List<ChildUpdateRequest> childUpdateRequests = parentInfo.getChildren().stream()
+                    .map(c -> new ChildUpdateRequest(c.getId() + 1L, c.getDateOfBirth().plusDays(1L), c.getGender()))
+                    .collect(Collectors.toList());
+            ParentUpdateRequest updateRequest = new ParentUpdateRequest(childUpdateRequests, "맘시터 서비스 너무 좋아요!");
+
+            // when then
+            assertThatThrownBy(() -> accountService.updateParentInfo(createResponse.getAccount().getId(), updateRequest))
+                    .isExactlyInstanceOf(InvalidArgumentException.class)
+                    .hasMessage("등록된 아이들과 수정을 원하는 아이들이 일치하지 않습니다.");
+        }
+    }
+
+    private SitterCreateResponse createSitterAccount() {
+        SitterCreateRequest request = new SitterCreateRequest(
+                new AccountCreateRequest("박민영",
+                        LocalDate.of(1992, 5, 30),
+                        "남",
+                        "charlie123",
+                        "password12!@",
+                        "test@test.com"),
+                new SitterInfoRequest(3, 6, "아이들을 좋아하고, 잘 돌봐유")
+        );
+        return accountService.createSitterAccount(request);
+    }
+
+    private ParentCreateResponse createParentAccount() {
+        ParentCreateRequest request = new ParentCreateRequest(
+                new AccountCreateRequest("찰리박",
+                        LocalDate.of(1992, 5, 30),
+                        "남",
+                        "park1992",
+                        "password12!@",
+                        "park@test.com"),
+                new ParentInfoRequest(
+                        Arrays.asList(new ChildRequest(LocalDate.of(2020, 5, 30), "남"),
+                                new ChildRequest(LocalDate.of(2018, 3, 25), "여")),
+                        "매일 2시간정도 아이를 봐주실 시터님 구해요:)"
+                )
+        );
+        return accountService.createParentAccount(request);
     }
 }

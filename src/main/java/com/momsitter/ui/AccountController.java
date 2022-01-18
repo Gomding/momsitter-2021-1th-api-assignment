@@ -3,6 +3,14 @@ package com.momsitter.ui;
 import com.momsitter.domain.Account;
 import com.momsitter.service.AccountService;
 import com.momsitter.ui.dto.account.*;
+import com.momsitter.ui.dto.account.parent.ParentCreateRequest;
+import com.momsitter.ui.dto.account.parent.ParentCreateResponse;
+import com.momsitter.ui.dto.account.parent.ParentInfoResponse;
+import com.momsitter.ui.dto.account.parent.ParentUpdateRequest;
+import com.momsitter.ui.dto.account.sitter.SitterCreateRequest;
+import com.momsitter.ui.dto.account.sitter.SitterCreateResponse;
+import com.momsitter.ui.dto.account.sitter.SitterInfoResponse;
+import com.momsitter.ui.dto.account.sitter.SitterUpdateRequest;
 import com.momsitter.ui.webconfig.AccountAuthenticationPrinciple;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +46,27 @@ public class AccountController {
     @GetMapping("/me")
     public ResponseEntity<AccountInfoResponse> findAccountInfoOfMine(@AccountAuthenticationPrinciple Account account) {
         AccountInfoResponse response = accountService.findAccountById(account.getId());
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<AccountResponse> updateAccountInfoOfMine(@RequestBody AccountUpdateRequest request,
+                                                                       @AccountAuthenticationPrinciple Account account) {
+        AccountResponse response = accountService.updateAccountInfo(account.getId(), request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/me/sitter")
+    public ResponseEntity<SitterInfoResponse> updateSitterInfoOfMine(@RequestBody SitterUpdateRequest request,
+                                                                     @AccountAuthenticationPrinciple Account account) {
+        SitterInfoResponse response = accountService.updateSitterInfo(account.getId(), request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/me/parent")
+    public ResponseEntity<ParentInfoResponse> updateParentInfoOfMine(@RequestBody ParentUpdateRequest request,
+                                                                     @AccountAuthenticationPrinciple Account account) {
+        ParentInfoResponse response = accountService.updateParentInfo(account.getId(), request);
         return ResponseEntity.ok(response);
     }
 }

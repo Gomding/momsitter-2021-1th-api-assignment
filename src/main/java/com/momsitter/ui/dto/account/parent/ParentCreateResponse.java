@@ -1,6 +1,7 @@
-package com.momsitter.ui.dto.account;
+package com.momsitter.ui.dto.account.parent;
 
 import com.momsitter.domain.Account;
+import com.momsitter.ui.dto.account.AccountResponse;
 
 public class ParentCreateResponse {
     private AccountResponse account;

@@ -1,25 +1,19 @@
-package com.momsitter.ui.dto.account;
-
-import com.momsitter.domain.Child;
+package com.momsitter.ui.dto.account.parent;
 
 import java.time.LocalDate;
 
-public class ChildResponse {
+public class ChildUpdateRequest {
     private Long id;
     private LocalDate dateOfBirth;
     private String gender;
 
-    protected ChildResponse() {
+    protected ChildUpdateRequest() {
     }
 
-    public ChildResponse(Long id, LocalDate dateOfBirth, String gender) {
+    public ChildUpdateRequest(Long id, LocalDate dateOfBirth, String gender) {
         this.id = id;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-    }
-
-    public static ChildResponse of(Child child) {
-        return new ChildResponse(child.getId(), child.getDateOfBirth().getValue(), child.getGender().getGenderName());
     }
 
     public Long getId() {

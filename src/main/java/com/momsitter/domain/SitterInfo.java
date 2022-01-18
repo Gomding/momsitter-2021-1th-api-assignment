@@ -31,6 +31,11 @@ public class SitterInfo {
         this.aboutMe = Objects.requireNonNull(aboutMe, ABOUT_ME_NULL_EXCEPTION_MESSAGE);
     }
 
+    public void updateInfo(CareAgeRange careAgeRange, String aboutMe) {
+        this.careAgeRange = careAgeRange;
+        this.aboutMe = aboutMe;
+    }
+
     public Long getId() {
         return id;
     }

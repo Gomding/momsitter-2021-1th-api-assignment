@@ -1,6 +1,8 @@
 package com.momsitter.ui.dto.account;
 
 import com.momsitter.domain.Account;
+import com.momsitter.ui.dto.account.parent.ParentInfoResponse;
+import com.momsitter.ui.dto.account.sitter.SitterInfoResponse;
 
 public class AccountInfoResponse {
     private AccountResponse account;

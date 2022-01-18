@@ -1,8 +1,10 @@
-package com.momsitter.ui.dto.account;
+package com.momsitter.ui.dto.account.parent;
 
+import com.momsitter.domain.Child;
 import com.momsitter.domain.ParentInfo;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ParentInfoRequest {
     private List<ChildRequest> children;
@@ -17,9 +19,10 @@ public class ParentInfoRequest {
     }
 
     public ParentInfo toEntity() {
-        return new ParentInfo(
-                careRequestInfo
-        );
+        List<Child> childList = children.stream()
+                .map(ChildRequest::toEntity)
+                .collect(Collectors.toList());
+        return new ParentInfo(childList, careRequestInfo);
     }
 
     public List<ChildRequest> getChildren() {

@@ -1,4 +1,4 @@
-package com.momsitter.ui.dto.account;
+package com.momsitter.ui.dto.account.sitter;
 
 import com.momsitter.domain.SitterInfo;
 

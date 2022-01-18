@@ -43,6 +43,11 @@ public class ParentInfo {
         child.addParentInfo(this);
     }
 
+    public void updateInfo(List<Child> children, String careRequestInfo) {
+        this.children = children;
+        this.careRequestInfo = careRequestInfo;
+    }
+
     public Long getId() {
         return id;
     }

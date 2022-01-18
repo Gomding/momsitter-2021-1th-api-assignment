@@ -1,6 +1,8 @@
 package com.momsitter.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -42,7 +44,16 @@ public class Account {
     protected Account() {
     }
 
+    public void updateSitterInfo(int minCareAge, int maxCareAge, String aboutMe) {
+        this.sitterInfo.updateInfo(new CareAgeRange(minCareAge, maxCareAge), aboutMe);
+    }
+
+    public void updateParentInfo(List<Child> children, String careRequestInfo) {
+        this.parentInfo.updateInfo(children, careRequestInfo);
+    }
+
     public static class Builder {
+
         private Long id;
         private Name name;
         private DateOfBirth dateOfBirth;
@@ -50,7 +61,6 @@ public class Account {
         private AccountId accountId;
         private Password password;
         private Email email;
-
         public Builder id(Long id) {
             this.id = id;
             return this;
@@ -89,8 +99,8 @@ public class Account {
         public Account build() {
             return new Account(this);
         }
-    }
 
+    }
     private Account(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
@@ -103,6 +113,16 @@ public class Account {
 
     public boolean isInvalidPassword(String password) {
         return !this.password.equals(new Password(password));
+    }
+
+    public void updateInfo(Gender gender, Password password, Email email) {
+        this.gender = gender;
+        this.password = password;
+        this.email = email;
+    }
+
+    public boolean isDifferentEmail(String email) {
+        return !this.email.getValue().equals(email);
     }
 
     public void registerSitter(SitterInfo sitterInfo) {

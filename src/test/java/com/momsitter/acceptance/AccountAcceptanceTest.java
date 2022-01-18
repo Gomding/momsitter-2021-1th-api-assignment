@@ -3,6 +3,11 @@ package com.momsitter.acceptance;
 import com.momsitter.domain.Name;
 import com.momsitter.exception.ExceptionResponse;
 import com.momsitter.ui.dto.account.*;
+import com.momsitter.ui.dto.account.parent.*;
+import com.momsitter.ui.dto.account.sitter.SitterCreateRequest;
+import com.momsitter.ui.dto.account.sitter.SitterInfoRequest;
+import com.momsitter.ui.dto.account.sitter.SitterInfoResponse;
+import com.momsitter.ui.dto.account.sitter.SitterUpdateRequest;
 import com.momsitter.ui.dto.auth.TokenResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -13,6 +18,8 @@ import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.momsitter.acceptance.AuthAcceptanceTest.로그인_되어_있음;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,14 +57,22 @@ class AccountAcceptanceTest extends AcceptanceTest {
     @DisplayName("시터 회원의 정보를 관리한다.")
     @Test
     void manageSitterAccount() {
-        SitterCreateRequest request = 시터_회원_가입_요청을_생성한다();
-        ExtractableResponse<Response> createResponse = 시터_회원_가입을_요청(request);
+        SitterCreateRequest createRequest = 시터_회원_가입_요청을_생성한다();
+        ExtractableResponse<Response> createResponse = 시터_회원_가입을_요청(createRequest);
         시터_회원_생성됨(createResponse);
 
         TokenResponse 사용자_인증토큰 = 로그인_되어_있음(ACCOUNT_ID, PASSWORD);
 
         ExtractableResponse<Response> findResponse = 내_정보를_조회_요청(사용자_인증토큰);
         내_회원_정보_조회됨(findResponse);
+
+        AccountUpdateRequest updateRequest = 회원_정보_수정_요청을_생성한다();
+        ExtractableResponse<Response> updateResponse = 내_회원_정보를_수정_요청(updateRequest, 사용자_인증토큰);
+        내_회원_정보_수정됨(updateResponse);
+
+        SitterUpdateRequest sitterUpdateRequest = 시터_회원_정보_수정_요청을_생성한다();
+        ExtractableResponse<Response> sitterUpdateResponse = 내_시터_회원_정보를_수정_요청(sitterUpdateRequest, 사용자_인증토큰);
+        내_시터_회원_정보_수정됨(sitterUpdateResponse);
     }
 
     @DisplayName("부모 회원의 정보를 관리한다.")
@@ -71,6 +86,14 @@ class AccountAcceptanceTest extends AcceptanceTest {
 
         ExtractableResponse<Response> findResponse = 내_정보를_조회_요청(사용자_인증토큰);
         내_회원_정보_조회됨(findResponse);
+
+        AccountUpdateRequest updateRequest = 회원_정보_수정_요청을_생성한다();
+        ExtractableResponse<Response> updateResponse = 내_회원_정보를_수정_요청(updateRequest, 사용자_인증토큰);
+        내_회원_정보_수정됨(updateResponse);
+
+        ParentUpdateRequest parentUpdateRequest = 부모_회원_정보_수정_요청을_생성한다(사용자_인증토큰);
+        ExtractableResponse<Response> parentUpdateResponse = 내_부모_회원_정보를_수정_요청(parentUpdateRequest, 사용자_인증토큰);
+        내_부모_회원_정보_수정됨(parentUpdateResponse);
     }
 
     public static SitterCreateRequest 시터_회원_가입_요청을_생성한다() {
@@ -90,12 +113,12 @@ class AccountAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private static void 시터_회원_생성됨(ExtractableResponse<Response> response) {
+    private void 시터_회원_생성됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.header("Location")).isNotBlank();
     }
 
-    public static ParentCreateRequest 부모_회원_가입_요청을_생성한다() {
+    private ParentCreateRequest 부모_회원_가입_요청을_생성한다() {
         ChildRequest childRequest1 = new ChildRequest(CHILD_DATE_OF_BIRTH1, CHILD_GENDER1);
         ChildRequest childRequest2 = new ChildRequest(CHILD_DATE_OF_BIRTH2, CHILD_GENDER2);
         return new ParentCreateRequest(
@@ -104,7 +127,7 @@ class AccountAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    public static ExtractableResponse<Response> 부모_회원_가입을_요청(ParentCreateRequest request) {
+    private ExtractableResponse<Response> 부모_회원_가입을_요청(ParentCreateRequest request) {
         return RestAssured
                 .given().log().all()
                 .body(request)
@@ -114,12 +137,12 @@ class AccountAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private static void 부모_회원_생성됨(ExtractableResponse<Response> response) {
+    private void 부모_회원_생성됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.header("Location")).isNotBlank();
     }
 
-    public static ExtractableResponse<Response> 내_정보를_조회_요청(TokenResponse token) {
+    private ExtractableResponse<Response> 내_정보를_조회_요청(TokenResponse token) {
         return RestAssured
                 .given().log().all()
                 .auth().oauth2(token.getAccessToken())
@@ -130,10 +153,82 @@ class AccountAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private static void 내_회원_정보_조회됨(ExtractableResponse<Response> response) {
+    private void 내_회원_정보_조회됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         AccountInfoResponse accountInfoResponse = response.as(AccountInfoResponse.class);
         assertThat(accountInfoResponse.getAccount()).isNotNull();
+    }
+
+    private AccountUpdateRequest 회원_정보_수정_요청을_생성한다() {
+        return new AccountUpdateRequest("여", "newpw12!!@@", "newtest@email.com");
+    }
+
+    private ExtractableResponse<Response> 내_회원_정보를_수정_요청(AccountUpdateRequest updateRequest, TokenResponse token) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token.getAccessToken())
+                .body(updateRequest)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().put("/api/accounts/me")
+                .then().log().all()
+                .extract();
+    }
+
+    private void 내_회원_정보_수정됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        AccountResponse accountResponse = response.as(AccountResponse.class);
+        assertThat(accountResponse.getId()).isNotNull();
+    }
+
+    private SitterUpdateRequest 시터_회원_정보_수정_요청을_생성한다() {
+        return new SitterUpdateRequest(SITTER_MIN_CARE_AGE + 1, SITTER_MAX_CARE_AGE + 1,
+                ABOUT_ME + "update");
+    }
+
+    private ExtractableResponse<Response> 내_시터_회원_정보를_수정_요청(SitterUpdateRequest request, TokenResponse token) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token.getAccessToken())
+                .body(request)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().put("/api/accounts/me/sitter")
+                .then().log().all()
+                .extract();
+    }
+
+    private void 내_시터_회원_정보_수정됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        SitterInfoResponse updateResponse = response.as(SitterInfoResponse.class);
+        assertThat(updateResponse.getId()).isNotNull();
+    }
+
+    private ParentUpdateRequest 부모_회원_정보_수정_요청을_생성한다(TokenResponse token) {
+        AccountInfoResponse accountInfoResponse = 내_정보를_조회_요청(token).as(AccountInfoResponse.class);
+        List<ChildResponse> children = accountInfoResponse.getParent().getChildren();
+        List<ChildUpdateRequest> childUpdateRequests = children.stream()
+                .map(child -> new ChildUpdateRequest(child.getId(), child.getDateOfBirth().plusDays(1L), "여"))
+                .collect(Collectors.toList());
+        return new ParentUpdateRequest(childUpdateRequests, "시터님 잘부탁드려요!");
+    }
+
+    private ExtractableResponse<Response> 내_부모_회원_정보를_수정_요청(ParentUpdateRequest request, TokenResponse token) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token.getAccessToken())
+                .body(request)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().put("/api/accounts/me/parent")
+                .then().log().all()
+                .extract();
+    }
+
+    private void 내_부모_회원_정보_수정됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        ParentInfoResponse parentInfoResponse = response.as(ParentInfoResponse.class);
+        assertThat(parentInfoResponse.getId()).isNotNull();
     }
 
     @DisplayName("[공통]회원가입 시 잘못된 요청 테스트")

@@ -1,4 +1,6 @@
-package com.momsitter.ui.dto.account;
+package com.momsitter.ui.dto.account.sitter;
+
+import com.momsitter.ui.dto.account.AccountCreateRequest;
 
 public class SitterCreateRequest {
     AccountCreateRequest account;

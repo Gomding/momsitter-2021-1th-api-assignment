@@ -1,4 +1,4 @@
-package com.momsitter.ui.dto.account;
+package com.momsitter.ui.dto.account.parent;
 
 import com.momsitter.domain.Child;
 import com.momsitter.domain.DateOfBirth;

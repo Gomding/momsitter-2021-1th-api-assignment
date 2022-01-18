@@ -1,4 +1,8 @@
-package com.momsitter.ui.dto.account;
+package com.momsitter.ui.dto.account.parent;
+
+import com.momsitter.domain.Account;
+import com.momsitter.domain.ParentInfo;
+import com.momsitter.ui.dto.account.AccountCreateRequest;
 
 public class ParentCreateRequest {
     private AccountCreateRequest account;
@@ -10,6 +14,14 @@ public class ParentCreateRequest {
     public ParentCreateRequest(AccountCreateRequest account, ParentInfoRequest parentInfo) {
         this.account = account;
         this.parentInfo = parentInfo;
+    }
+
+    public Account toAccount() {
+        return account.toEntity();
+    }
+
+    public ParentInfo toParentInfo() {
+        return parentInfo.toEntity();
     }
 
     public AccountCreateRequest getAccount() {
