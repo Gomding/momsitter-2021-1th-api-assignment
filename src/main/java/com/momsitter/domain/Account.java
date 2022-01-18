@@ -100,6 +100,10 @@ public class Account {
         this.email = builder.email;
     }
 
+    public boolean isInvalidPassword(String password) {
+        return !this.password.equals(new Password(password));
+    }
+
     public void registerSitter(SitterInfo sitterInfo) {
         this.sitterInfo = Objects.requireNonNull(sitterInfo, SITTER_NULL_EXCEPTION_MESSAGE);
     }

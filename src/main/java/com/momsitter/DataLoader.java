@@ -2,9 +2,6 @@ package com.momsitter;
 
 import com.momsitter.domain.*;
 import com.momsitter.repository.AccountRepository;
-import com.momsitter.repository.ChildRepository;
-import com.momsitter.repository.ParentInfoRepository;
-import com.momsitter.repository.SitterInfoRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
@@ -17,16 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class DataLoader implements ApplicationRunner {
 
     private final AccountRepository accountRepository;
-    private final SitterInfoRepository sitterInfoRepository;
-    private final ParentInfoRepository parentInfoRepository;
-    private final ChildRepository childRepository;
 
-    public DataLoader(AccountRepository accountRepository, SitterInfoRepository sitterInfoRepository,
-                      ParentInfoRepository parentInfoRepository, ChildRepository childRepository) {
+    public DataLoader(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        this.sitterInfoRepository = sitterInfoRepository;
-        this.parentInfoRepository = parentInfoRepository;
-        this.childRepository = childRepository;
     }
 
     @Override
@@ -49,16 +39,14 @@ public class DataLoader implements ApplicationRunner {
                 .gender(Gender.FEMALE)
                 .accountId(new AccountId("brown1234"))
                 .password(new Password("basd1234!"))
-                .email(new Email("test@test.com"))
+                .email(new Email("brown@test.com"))
                 .build();
 
         Child child1 = new Child(DateOfBirth.of("20190212"), Gender.FEMALE);
         Child child2 = new Child(DateOfBirth.of("20201003"), Gender.MALE);
-        childRepository.save(child1);
-        childRepository.save(child2);
         ParentInfo parentInfo = new ParentInfo("아이 둘과 함께 놀아주실 분 구합니다!");
-        parentInfo.addChild(child1);
-        parentInfo.addChild(child2);
+        child1.addParentInfo(parentInfo);
+        child2.addParentInfo(parentInfo);
         account2.registerParent(parentInfo);
         accountRepository.save(account2);
     }

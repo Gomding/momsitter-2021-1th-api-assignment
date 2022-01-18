@@ -3,6 +3,8 @@ package com.momsitter.acceptance;
 import com.momsitter.domain.Name;
 import com.momsitter.exception.ExceptionResponse;
 import com.momsitter.ui.account.dto.*;
+import com.momsitter.ui.auth.dto.TokenRequest;
+import com.momsitter.ui.auth.dto.TokenResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -13,6 +15,7 @@ import org.springframework.http.MediaType;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+import static com.momsitter.acceptance.AuthAcceptanceTest.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("회원 관련 인수 테스트")
@@ -51,6 +54,8 @@ class AccountAcceptanceTest extends AcceptanceTest {
         SitterCreateRequest request = 시터_회원_가입_요청을_생성한다();
         ExtractableResponse<Response> createResponse = 시터_회원_가입을_요청(request);
         시터_회원_생성됨(createResponse);
+
+        TokenResponse 사용자_인증토큰 = 로그인_되어_있음(ACCOUNT_ID, PASSWORD);
     }
 
     @DisplayName("부모 회원의 정보를 관리한다.")
@@ -59,16 +64,18 @@ class AccountAcceptanceTest extends AcceptanceTest {
         ParentCreateRequest request = 부모_회원_가입_요청을_생성한다();
         ExtractableResponse<Response> createResponse = 부모_회원_가입을_요청(request);
         부모_회원_생성됨(createResponse);
+
+        TokenResponse 사용자_인증토큰 = 로그인_되어_있음(ACCOUNT_ID, PASSWORD);
     }
 
-    private SitterCreateRequest 시터_회원_가입_요청을_생성한다() {
+    public static SitterCreateRequest 시터_회원_가입_요청을_생성한다() {
         return new SitterCreateRequest(
                 new AccountCreateRequest(NAME, DATE_OF_BIRTH, GENDER, ACCOUNT_ID, PASSWORD, EMAIL),
                 new SitterInfoRequest(SITTER_MIN_CARE_AGE, SITTER_MAX_CARE_AGE, ABOUT_ME)
         );
     }
 
-    private ExtractableResponse<Response> 시터_회원_가입을_요청(SitterCreateRequest request) {
+    public static ExtractableResponse<Response> 시터_회원_가입을_요청(SitterCreateRequest request) {
         return RestAssured
                 .given().log().all()
                 .body(request)
@@ -78,12 +85,12 @@ class AccountAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private void 시터_회원_생성됨(ExtractableResponse<Response> response) {
+    private static void 시터_회원_생성됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.header("Location")).isNotBlank();
     }
 
-    private ParentCreateRequest 부모_회원_가입_요청을_생성한다() {
+    public static ParentCreateRequest 부모_회원_가입_요청을_생성한다() {
         ChildRequest childRequest1 = new ChildRequest(CHILD_DATE_OF_BIRTH1, CHILD_GENDER1);
         ChildRequest childRequest2 = new ChildRequest(CHILD_DATE_OF_BIRTH2, CHILD_GENDER2);
         return new ParentCreateRequest(
@@ -92,7 +99,7 @@ class AccountAcceptanceTest extends AcceptanceTest {
         );
     }
 
-    private ExtractableResponse<Response> 부모_회원_가입을_요청(ParentCreateRequest request) {
+    public static ExtractableResponse<Response> 부모_회원_가입을_요청(ParentCreateRequest request) {
         return RestAssured
                 .given().log().all()
                 .body(request)
@@ -102,23 +109,20 @@ class AccountAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private void 부모_회원_생성됨(ExtractableResponse<Response> response) {
+    private static void 부모_회원_생성됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.header("Location")).isNotBlank();
     }
 
-    @DisplayName("[공통]회원가입 잘못된 요청 테스트")
+    @DisplayName("[공통]회원가입 시 잘못된 요청 테스트")
     @Nested
     class CreateSitterAccountTest {
         @DisplayName("POST /api/accounts/sitter -> 이미 존재하는 계정ID로 시터 회원가입을 요청하면 실패한다.")
         @Test
         void createSitterAccountDuplicateAccountId() {
             //given
-            SitterCreateRequest request = new SitterCreateRequest(
-                    new AccountCreateRequest(NAME, DATE_OF_BIRTH, GENDER, ACCOUNT_ID, PASSWORD, EMAIL),
-                    new SitterInfoRequest(SITTER_MIN_CARE_AGE, SITTER_MAX_CARE_AGE, ABOUT_ME)
-            );
-            시터_회원가입을_요청(request);
+            SitterCreateRequest request = 시터_회원_가입_요청을_생성한다();
+            시터_회원_가입을_요청(request);
             SitterCreateRequest 이미_존재하는_계정ID를_가진_시터_회웝가입_요청 = new SitterCreateRequest(
                     new AccountCreateRequest("박시터",
                             LocalDate.of(1988, 3, 30),
@@ -130,7 +134,7 @@ class AccountAcceptanceTest extends AcceptanceTest {
             );
 
             // when
-            ExtractableResponse<Response> response = 시터_회원가입을_요청(이미_존재하는_계정ID를_가진_시터_회웝가입_요청);
+            ExtractableResponse<Response> response = 시터_회원_가입을_요청(이미_존재하는_계정ID를_가진_시터_회웝가입_요청);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.CONFLICT.value());
@@ -142,12 +146,9 @@ class AccountAcceptanceTest extends AcceptanceTest {
         @Test
         void createSitterAccountDuplicateEmail() {
             //given
-            SitterCreateRequest request = new SitterCreateRequest(
-                    new AccountCreateRequest(NAME, DATE_OF_BIRTH, GENDER, ACCOUNT_ID, PASSWORD, EMAIL),
-                    new SitterInfoRequest(SITTER_MIN_CARE_AGE, SITTER_MAX_CARE_AGE, ABOUT_ME)
-            );
-            시터_회원가입을_요청(request);
-            SitterCreateRequest 이미_존재하는_계정ID를_가진_시터_회웝가입_요청 = new SitterCreateRequest(
+            SitterCreateRequest request = 시터_회원_가입_요청을_생성한다();
+            시터_회원_가입을_요청(request);
+            SitterCreateRequest 이미_존재하는_이메일을_가진_시터_회웝가입_요청 = new SitterCreateRequest(
                     new AccountCreateRequest("박시터",
                             LocalDate.of(1988, 3, 30),
                             "여",
@@ -158,7 +159,7 @@ class AccountAcceptanceTest extends AcceptanceTest {
             );
 
             // when
-            ExtractableResponse<Response> response = 시터_회원가입을_요청(이미_존재하는_계정ID를_가진_시터_회웝가입_요청);
+            ExtractableResponse<Response> response = 시터_회원_가입을_요청(이미_존재하는_이메일을_가진_시터_회웝가입_요청);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.CONFLICT.value());
@@ -176,22 +177,12 @@ class AccountAcceptanceTest extends AcceptanceTest {
             );
 
             // when
-            ExtractableResponse<Response> response = 시터_회원가입을_요청(request);
+            ExtractableResponse<Response> response = 시터_회원_가입을_요청(request);
 
             // then
             assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
             ExceptionResponse exceptionResponse = response.as(ExceptionResponse.class);
             assertThat(exceptionResponse.getMessage()).isEqualTo(Name.BLANK_EXCEPTION_MESSAGE);
-        }
-
-        private ExtractableResponse<Response> 시터_회원가입을_요청(SitterCreateRequest request) {
-            return RestAssured
-                    .given().log().all()
-                    .body(request)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .when().post("/api/accounts/sitter")
-                    .then().log().all()
-                    .extract();
         }
     }
 }

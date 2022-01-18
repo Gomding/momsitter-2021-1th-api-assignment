@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Transactional
+@Transactional(readOnly = true)
 @Service
 public class AccountService {
 
@@ -20,16 +20,21 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
+    @Transactional
     public SitterCreateResponse createSitterAccount(SitterCreateRequest request) {
         Account account = request.getAccount().toEntity();
+
         validateAccountId(account.getAccountId());
         validateAccountEmail(account.getEmail());
+
         account.registerSitter(request.getSitterInfo().toEntity());
         return SitterCreateResponse.of(accountRepository.save(account));
     }
 
+    @Transactional
     public ParentCreateResponse createParentAccount(ParentCreateRequest request) {
         Account account = request.getAccount().toEntity();
+
         validateAccountId(account.getAccountId());
         validateAccountEmail(account.getEmail());
 
