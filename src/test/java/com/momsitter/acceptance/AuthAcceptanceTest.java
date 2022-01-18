@@ -53,7 +53,7 @@ class AuthAcceptanceTest extends AcceptanceTest {
     private void 인증_토큰_생성됐다(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         TokenResponse tokenResponse = response.as(TokenResponse.class);
-        assertThat(tokenResponse.getValue()).isNotNull();
+        assertThat(tokenResponse.getAccessToken()).isNotNull();
     }
 
     private void 존재하지_않는_아이디로_로그인을_시도하면_실패한다(ExtractableResponse<Response> response) {

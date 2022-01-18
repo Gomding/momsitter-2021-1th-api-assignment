@@ -6,6 +6,9 @@ public class ParentCreateResponse {
     private AccountResponse account;
     private ParentInfoResponse parentInfo;
 
+    protected ParentCreateResponse() {
+    }
+
     public ParentCreateResponse(AccountResponse account, ParentInfoResponse parentInfo) {
         this.account = account;
         this.parentInfo = parentInfo;

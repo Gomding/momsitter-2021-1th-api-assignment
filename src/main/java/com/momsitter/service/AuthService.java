@@ -53,7 +53,7 @@ public class AuthService {
     }
 
     private void validateValidToken(String token) {
-        if (jwtTokenProvider.validateToken(token))
+        if (!jwtTokenProvider.validateToken(token))
             throw new InvalidAuthTokenException("로그인이 만료되거나 유효하지 않습니다. 로그인 후 다시 시도해주세요.");
     }
 }

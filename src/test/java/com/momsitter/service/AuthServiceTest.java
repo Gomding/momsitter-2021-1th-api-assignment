@@ -44,7 +44,7 @@ class AuthServiceTest {
             TokenResponse tokenResponse = authService.login(new TokenRequest(accountId, password));
 
             // then
-            assertThat(tokenResponse.getValue()).isNotNull();
+            assertThat(tokenResponse.getAccessToken()).isNotNull();
         }
 
         @DisplayName("로그인 시 제출한 아이디가 존재하지 않으면 예외가 발생한다.")

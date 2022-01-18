@@ -2,16 +2,16 @@ package com.momsitter.ui.dto.auth;
 
 public class TokenResponse {
 
-    private String value;
+    private String accessToken;
 
     protected TokenResponse() {
     }
 
-    public TokenResponse(String value) {
-        this.value = value;
+    public TokenResponse(String accessToken) {
+        this.accessToken = accessToken;
     }
 
-    public String getValue() {
-        return value;
+    public String getAccessToken() {
+        return accessToken;
     }
 }

@@ -6,7 +6,8 @@ import java.util.Objects;
 @Entity
 public class Child {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded

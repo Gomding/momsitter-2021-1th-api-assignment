@@ -9,7 +9,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.momsitter.domain.Account.*;
+import static com.momsitter.domain.Account.PARENT_NULL_EXCEPTION_MESSAGE;
+import static com.momsitter.domain.Account.SITTER_NULL_EXCEPTION_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

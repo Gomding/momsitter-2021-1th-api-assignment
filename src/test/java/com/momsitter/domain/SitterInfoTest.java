@@ -4,7 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.momsitter.domain.SitterInfo.*;
+import static com.momsitter.domain.SitterInfo.ABOUT_ME_NULL_EXCEPTION_MESSAGE;
+import static com.momsitter.domain.SitterInfo.CARE_AGE_RANGE_NULL_EXCEPTION_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

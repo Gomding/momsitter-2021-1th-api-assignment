@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-import static com.momsitter.acceptance.AuthAcceptanceTest.*;
+import static com.momsitter.acceptance.AuthAcceptanceTest.로그인_되어_있음;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("회원 관련 인수 테스트")
@@ -55,6 +55,9 @@ class AccountAcceptanceTest extends AcceptanceTest {
         시터_회원_생성됨(createResponse);
 
         TokenResponse 사용자_인증토큰 = 로그인_되어_있음(ACCOUNT_ID, PASSWORD);
+
+        ExtractableResponse<Response> findResponse = 내_정보를_조회_요청(사용자_인증토큰);
+        내_회원_정보_조회됨(findResponse);
     }
 
     @DisplayName("부모 회원의 정보를 관리한다.")
@@ -65,6 +68,9 @@ class AccountAcceptanceTest extends AcceptanceTest {
         부모_회원_생성됨(createResponse);
 
         TokenResponse 사용자_인증토큰 = 로그인_되어_있음(ACCOUNT_ID, PASSWORD);
+
+        ExtractableResponse<Response> findResponse = 내_정보를_조회_요청(사용자_인증토큰);
+        내_회원_정보_조회됨(findResponse);
     }
 
     public static SitterCreateRequest 시터_회원_가입_요청을_생성한다() {
@@ -111,6 +117,23 @@ class AccountAcceptanceTest extends AcceptanceTest {
     private static void 부모_회원_생성됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.header("Location")).isNotBlank();
+    }
+
+    public static ExtractableResponse<Response> 내_정보를_조회_요청(TokenResponse token) {
+        return RestAssured
+                .given().log().all()
+                .auth().oauth2(token.getAccessToken())
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().get("/api/accounts/me")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract();
+    }
+
+    private static void 내_회원_정보_조회됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        AccountInfoResponse accountInfoResponse = response.as(AccountInfoResponse.class);
+        assertThat(accountInfoResponse.getAccount()).isNotNull();
     }
 
     @DisplayName("[공통]회원가입 시 잘못된 요청 테스트")

@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ParentInfoResponse {
-    private final Long id;
-    private final List<ChildResponse> children;
-    private final String careRequestInfo;
+    private Long id;
+    private List<ChildResponse> children;
+    private String careRequestInfo;
+
+    protected ParentInfoResponse() {
+    }
 
     public ParentInfoResponse(Long id, List<ChildResponse> children, String careRequestInfo) {
         this.id = id;

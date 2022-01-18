@@ -7,6 +7,9 @@ public class SitterCreateResponse {
     private AccountResponse account;
     private SitterInfoResponse sitterInfo;
 
+    protected SitterCreateResponse() {
+    }
+
     public SitterCreateResponse(AccountResponse account, SitterInfoResponse sitterInfo) {
         this.account = account;
         this.sitterInfo = sitterInfo;

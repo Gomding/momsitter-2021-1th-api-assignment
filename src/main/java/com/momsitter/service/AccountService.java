@@ -2,6 +2,7 @@ package com.momsitter.service;
 
 import com.momsitter.domain.*;
 import com.momsitter.exception.DuplicateException;
+import com.momsitter.exception.InvalidArgumentException;
 import com.momsitter.repository.AccountRepository;
 import com.momsitter.ui.dto.account.*;
 import org.springframework.stereotype.Service;
@@ -62,5 +63,10 @@ public class AccountService {
     private void validateAccountEmail(Email email) {
         if (accountRepository.existsByEmail(email))
             throw new DuplicateException("입력하신 이메일로 가입한 계정이 이미 존재합니다.");
+    }
+
+    public AccountInfoResponse findAccountById(Long id) {
+        return AccountInfoResponse.of(accountRepository.findById(id)
+                .orElseThrow(() -> new InvalidArgumentException("존재하지 않는 회원입니다.")));
     }
 }

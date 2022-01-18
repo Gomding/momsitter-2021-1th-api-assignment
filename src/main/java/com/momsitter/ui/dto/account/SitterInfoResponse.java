@@ -3,10 +3,13 @@ package com.momsitter.ui.dto.account;
 import com.momsitter.domain.SitterInfo;
 
 public class SitterInfoResponse {
-    private final Long id;
-    private final int minCareAge;
-    private final int maxCareAge;
-    private final String aboutMe;
+    private Long id;
+    private int minCareAge;
+    private int maxCareAge;
+    private String aboutMe;
+
+    protected SitterInfoResponse() {
+    }
 
     public SitterInfoResponse(Long id, int minCareAge, int maxCareAge, String aboutMe) {
         this.id = id;

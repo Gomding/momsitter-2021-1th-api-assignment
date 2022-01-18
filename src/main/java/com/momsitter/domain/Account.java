@@ -8,7 +8,8 @@ public class Account {
     public static final String SITTER_NULL_EXCEPTION_MESSAGE = "시터로 등록시 시터 정보는 null이 될 수 없습니다.";
     public static final String PARENT_NULL_EXCEPTION_MESSAGE = "부모로 등록시 부모 정보는 null이 될 수 없습니다.";
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Embedded
@@ -110,6 +111,14 @@ public class Account {
 
     public void registerParent(ParentInfo parentInfo) {
         this.parentInfo = Objects.requireNonNull(parentInfo, PARENT_NULL_EXCEPTION_MESSAGE);
+    }
+
+    public boolean isSitter() {
+        return Objects.nonNull(this.sitterInfo);
+    }
+
+    public boolean isParent() {
+        return Objects.nonNull(this.parentInfo);
     }
 
     public Long getId() {

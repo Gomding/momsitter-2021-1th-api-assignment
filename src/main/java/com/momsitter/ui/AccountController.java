@@ -1,15 +1,11 @@
 package com.momsitter.ui;
 
+import com.momsitter.domain.Account;
 import com.momsitter.service.AccountService;
-import com.momsitter.ui.dto.account.ParentCreateRequest;
-import com.momsitter.ui.dto.account.ParentCreateResponse;
-import com.momsitter.ui.dto.account.SitterCreateRequest;
-import com.momsitter.ui.dto.account.SitterCreateResponse;
+import com.momsitter.ui.dto.account.*;
+import com.momsitter.ui.webconfig.AccountAuthenticationPrinciple;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -37,5 +33,11 @@ public class AccountController {
         return ResponseEntity
                 .created(URI.create("/accounts/" + response.getAccount().getId()))
                 .build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<AccountInfoResponse> findAccountInfoOfMine(@AccountAuthenticationPrinciple Account account) {
+        AccountInfoResponse response = accountService.findAccountById(account.getId());
+        return ResponseEntity.ok(response);
     }
 }

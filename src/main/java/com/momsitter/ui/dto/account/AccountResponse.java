@@ -10,16 +10,17 @@ public class AccountResponse {
     private LocalDate dateOfBirth;
     private String gender;
     private String accountId;
-    private String password;
     private String email;
 
-    public AccountResponse(Long id, String name, LocalDate dateOfBirth, String gender, String accountId, String password, String email) {
+    protected AccountResponse() {
+    }
+
+    public AccountResponse(Long id, String name, LocalDate dateOfBirth, String gender, String accountId, String email) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.accountId = accountId;
-        this.password = password;
         this.email = email;
     }
 
@@ -30,7 +31,6 @@ public class AccountResponse {
                 account.getDateOfBirth().getValue(),
                 account.getGender().getGenderName(),
                 account.getAccountId().getValue(),
-                account.getPassword().getValue(),
                 account.getEmail().getValue());
     }
 
@@ -52,10 +52,6 @@ public class AccountResponse {
 
     public String getAccountId() {
         return accountId;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getEmail() {

@@ -5,9 +5,12 @@ import com.momsitter.domain.Child;
 import java.time.LocalDate;
 
 public class ChildResponse {
-    private final Long id;
-    private final LocalDate dateOfBirth;
-    private final String gender;
+    private Long id;
+    private LocalDate dateOfBirth;
+    private String gender;
+
+    protected ChildResponse() {
+    }
 
     public ChildResponse(Long id, LocalDate dateOfBirth, String gender) {
         this.id = id;
