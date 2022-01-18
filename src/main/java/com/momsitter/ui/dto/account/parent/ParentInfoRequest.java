@@ -19,10 +19,11 @@ public class ParentInfoRequest {
     }
 
     public ParentInfo toEntity() {
-        List<Child> childList = children.stream()
-                .map(ChildRequest::toEntity)
-                .collect(Collectors.toList());
-        return new ParentInfo(childList, careRequestInfo);
+        ParentInfo parentInfo = new ParentInfo(careRequestInfo);
+        for (ChildRequest child : children) {
+            child.toEntity().addParentInfo(parentInfo);
+        }
+        return parentInfo;
     }
 
     public List<ChildRequest> getChildren() {

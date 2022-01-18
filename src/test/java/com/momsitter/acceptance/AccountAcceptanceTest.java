@@ -2,7 +2,10 @@ package com.momsitter.acceptance;
 
 import com.momsitter.domain.Name;
 import com.momsitter.exception.ExceptionResponse;
-import com.momsitter.ui.dto.account.*;
+import com.momsitter.ui.dto.account.AccountCreateRequest;
+import com.momsitter.ui.dto.account.AccountInfoResponse;
+import com.momsitter.ui.dto.account.AccountResponse;
+import com.momsitter.ui.dto.account.AccountUpdateRequest;
 import com.momsitter.ui.dto.account.parent.*;
 import com.momsitter.ui.dto.account.sitter.SitterCreateRequest;
 import com.momsitter.ui.dto.account.sitter.SitterInfoRequest;
@@ -57,22 +60,32 @@ class AccountAcceptanceTest extends AcceptanceTest {
     @DisplayName("시터 회원의 정보를 관리한다.")
     @Test
     void manageSitterAccount() {
+        // 시터 회원 가입
         SitterCreateRequest createRequest = 시터_회원_가입_요청을_생성한다();
         ExtractableResponse<Response> createResponse = 시터_회원_가입을_요청(createRequest);
         시터_회원_생성됨(createResponse);
 
+        // 로그인
         TokenResponse 사용자_인증토큰 = 로그인_되어_있음(ACCOUNT_ID, PASSWORD);
 
+        // 시터 회원 정보 조회
         ExtractableResponse<Response> findResponse = 내_정보를_조회_요청(사용자_인증토큰);
         내_회원_정보_조회됨(findResponse);
 
+        // 회원 정보 수정 요청
         AccountUpdateRequest updateRequest = 회원_정보_수정_요청을_생성한다();
         ExtractableResponse<Response> updateResponse = 내_회원_정보를_수정_요청(updateRequest, 사용자_인증토큰);
         내_회원_정보_수정됨(updateResponse);
 
+        // 시터 정보 수정 요청
         SitterUpdateRequest sitterUpdateRequest = 시터_회원_정보_수정_요청을_생성한다();
         ExtractableResponse<Response> sitterUpdateResponse = 내_시터_회원_정보를_수정_요청(sitterUpdateRequest, 사용자_인증토큰);
         내_시터_회원_정보_수정됨(sitterUpdateResponse);
+
+        // 시터 회원의 부모 회원 등록
+        ParentInfoRequest request = 시터_회원의_부모_회원_정보_추가_요청을_생성한다();
+        ExtractableResponse<Response> addParentInfoResponse = 시터_회원이_부모_정보_추가_요청(request, 사용자_인증토큰);
+        시터_회원에_부모_정보_추가됨(addParentInfoResponse);
     }
 
     @DisplayName("부모 회원의 정보를 관리한다.")
@@ -132,6 +145,7 @@ class AccountAcceptanceTest extends AcceptanceTest {
                 .given().log().all()
                 .body(request)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().post("/api/accounts/parent")
                 .then().log().all()
                 .extract();
@@ -226,6 +240,30 @@ class AccountAcceptanceTest extends AcceptanceTest {
     }
 
     private void 내_부모_회원_정보_수정됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        ParentInfoResponse parentInfoResponse = response.as(ParentInfoResponse.class);
+        assertThat(parentInfoResponse.getId()).isNotNull();
+    }
+
+    private ParentInfoRequest 시터_회원의_부모_회원_정보_추가_요청을_생성한다() {
+        ChildRequest childRequest1 = new ChildRequest(CHILD_DATE_OF_BIRTH1, CHILD_GENDER1);
+        ChildRequest childRequest2 = new ChildRequest(CHILD_DATE_OF_BIRTH2, CHILD_GENDER2);
+        return new ParentInfoRequest(Arrays.asList(childRequest1, childRequest2), PARENT_CARE_REQUEST_INFO);
+    }
+
+    private ExtractableResponse<Response> 시터_회원이_부모_정보_추가_요청(ParentInfoRequest request, TokenResponse token) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token.getAccessToken())
+                .body(request)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/api/accounts/me/parent")
+                .then().log().all()
+                .extract();
+    }
+
+    private void 시터_회원에_부모_정보_추가됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         ParentInfoResponse parentInfoResponse = response.as(ParentInfoResponse.class);
         assertThat(parentInfoResponse.getId()).isNotNull();

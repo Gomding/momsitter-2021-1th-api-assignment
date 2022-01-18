@@ -5,6 +5,7 @@ import com.momsitter.exception.DuplicateException;
 import com.momsitter.exception.InvalidArgumentException;
 import com.momsitter.exception.InvalidStateException;
 import com.momsitter.repository.AccountRepository;
+import com.momsitter.repository.ParentInfoRepository;
 import com.momsitter.ui.dto.account.*;
 import com.momsitter.ui.dto.account.parent.*;
 import com.momsitter.ui.dto.account.sitter.SitterCreateRequest;
@@ -24,9 +25,11 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private final AccountRepository accountRepository;
+    private final ParentInfoRepository parentInfoRepository;
 
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, ParentInfoRepository parentInfoRepository) {
         this.accountRepository = accountRepository;
+        this.parentInfoRepository = parentInfoRepository;
     }
 
     @Transactional
@@ -69,6 +72,7 @@ public class AccountService {
         return AccountResponse.of(account);
     }
 
+    @Transactional
     public SitterInfoResponse updateSitterInfo(Long id, SitterUpdateRequest request) {
         Account account = findById(id);
         validateSitterAccount(account);
@@ -76,11 +80,7 @@ public class AccountService {
         return SitterInfoResponse.of(account.getSitterInfo());
     }
 
-    private void validateSitterAccount(Account account) {
-        if (!account.isSitter())
-            throw new InvalidStateException("시터회원으로 등록하지 않으면 시터회원 정보를 수정할 수 없습니다.");
-    }
-
+    @Transactional
     public ParentInfoResponse updateParentInfo(Long id, ParentUpdateRequest request) {
         Account account = findById(id);
         validateParentAccount(account);
@@ -93,6 +93,30 @@ public class AccountService {
 
         account.updateParentInfo(new ArrayList<>(updateChildren), request.getCareRequestInfo());
         return ParentInfoResponse.of(account.getParentInfo());
+    }
+
+    @Transactional
+    public ParentInfoResponse addActivityParent(Long id, ParentInfoRequest request) {
+        Account account = findById(id);
+        validateAccountIsParent(account);
+        account.registerParent(parentInfoRepository.save(request.toEntity()));
+        return ParentInfoResponse.of(account.getParentInfo());
+    }
+
+    private void validateAccountIsParent(Account account) {
+        if (account.isParent())
+            throw new InvalidStateException("이미 부모회원으로 활동중입니다.");
+    }
+
+    private void validateSitterAccount(Account account) {
+        if (!account.isSitter())
+            throw new InvalidStateException("시터회원으로 등록하지 않으면 시터회원 정보를 수정할 수 없습니다.");
+    }
+
+    private void validateParentAccount(Account account) {
+        if (!account.isParent()) {
+            throw new InvalidStateException("부모회원으로 등록하지 않으면 부모회원 정보를 수정할 수 없습니다.");
+        }
     }
 
     private void validateChildren(List<Child> children, Set<Child> updateChildren) {
@@ -109,12 +133,6 @@ public class AccountService {
                 return true;
         }
         return false;
-    }
-
-    private void validateParentAccount(Account account) {
-        if (!account.isParent()) {
-            throw new InvalidStateException("부모회원으로 등록하지 않으면 부모회원 정보를 수정할 수 없습니다.");
-        }
     }
 
     private Account findById(Long id) {

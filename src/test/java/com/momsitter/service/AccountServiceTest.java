@@ -5,7 +5,10 @@ import com.momsitter.exception.DuplicateException;
 import com.momsitter.exception.InvalidArgumentException;
 import com.momsitter.exception.InvalidStateException;
 import com.momsitter.repository.AccountRepository;
-import com.momsitter.ui.dto.account.*;
+import com.momsitter.ui.dto.account.AccountCreateRequest;
+import com.momsitter.ui.dto.account.AccountInfoResponse;
+import com.momsitter.ui.dto.account.AccountResponse;
+import com.momsitter.ui.dto.account.AccountUpdateRequest;
 import com.momsitter.ui.dto.account.parent.*;
 import com.momsitter.ui.dto.account.sitter.*;
 import org.junit.jupiter.api.DisplayName;
@@ -432,6 +435,48 @@ class AccountServiceTest {
             assertThatThrownBy(() -> accountService.updateParentInfo(createResponse.getAccount().getId(), updateRequest))
                     .isExactlyInstanceOf(InvalidArgumentException.class)
                     .hasMessage("등록된 아이들과 수정을 원하는 아이들이 일치하지 않습니다.");
+        }
+    }
+
+    @DisplayName("시터회원에 부모회원 정보 추가 테스트")
+    @Nested
+    class AddActivityParentTest {
+
+        @DisplayName("시터회원이 부모회원으로도 활동할 수 있다.")
+        @Test
+        void addActivityParent() {
+            // given
+            SitterCreateResponse createResponse = createSitterAccount();
+            ParentInfoRequest parentInfoRequest = new ParentInfoRequest(
+                    Arrays.asList(new ChildRequest(LocalDate.of(2020, 5, 30), "남"),
+                            new ChildRequest(LocalDate.of(2018, 3, 25), "여")),
+                    "매일 2시간정도 아이를 봐주실 시터님 구해요:)"
+            );
+
+            // when
+            ParentInfoResponse response = accountService.addActivityParent(createResponse.getAccount().getId(), parentInfoRequest);
+
+            // then
+            assertThat(response.getId()).isNotNull();
+            assertThat(response.getChildren()).extracting("id").doesNotContainNull();
+            assertThat(response.getCareRequestInfo()).isEqualTo("매일 2시간정도 아이를 봐주실 시터님 구해요:)");
+        }
+
+        @DisplayName("이미 부모회원으로 활동중인 회원에 부모 정보를 추가하려면 예외가 발생한다.")
+        @Test
+        void addActivityParentWithParentAccount() {
+            // given
+            ParentCreateResponse createResponse = createParentAccount();
+            ParentInfoRequest parentInfoRequest = new ParentInfoRequest(
+                    Arrays.asList(new ChildRequest(LocalDate.of(2020, 5, 30), "남"),
+                            new ChildRequest(LocalDate.of(2018, 3, 25), "여")),
+                    "매일 2시간정도 아이를 봐주실 시터님 구해요:)"
+            );
+
+            // when then
+            assertThatThrownBy(() -> accountService.addActivityParent(createResponse.getAccount().getId(), parentInfoRequest))
+                    .isExactlyInstanceOf(InvalidStateException.class)
+                    .hasMessage("이미 부모회원으로 활동중입니다.");
         }
     }
 

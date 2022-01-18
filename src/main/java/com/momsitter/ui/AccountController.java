@@ -3,10 +3,7 @@ package com.momsitter.ui;
 import com.momsitter.domain.Account;
 import com.momsitter.service.AccountService;
 import com.momsitter.ui.dto.account.*;
-import com.momsitter.ui.dto.account.parent.ParentCreateRequest;
-import com.momsitter.ui.dto.account.parent.ParentCreateResponse;
-import com.momsitter.ui.dto.account.parent.ParentInfoResponse;
-import com.momsitter.ui.dto.account.parent.ParentUpdateRequest;
+import com.momsitter.ui.dto.account.parent.*;
 import com.momsitter.ui.dto.account.sitter.SitterCreateRequest;
 import com.momsitter.ui.dto.account.sitter.SitterCreateResponse;
 import com.momsitter.ui.dto.account.sitter.SitterInfoResponse;
@@ -67,6 +64,13 @@ public class AccountController {
     public ResponseEntity<ParentInfoResponse> updateParentInfoOfMine(@RequestBody ParentUpdateRequest request,
                                                                      @AccountAuthenticationPrinciple Account account) {
         ParentInfoResponse response = accountService.updateParentInfo(account.getId(), request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/me/parent")
+    public ResponseEntity<ParentInfoResponse> addActivityParentInfo(@RequestBody ParentInfoRequest request,
+                                                            @AccountAuthenticationPrinciple Account account) {
+        ParentInfoResponse response = accountService.addActivityParent(account.getId(), request);
         return ResponseEntity.ok(response);
     }
 }
