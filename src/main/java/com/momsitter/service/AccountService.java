@@ -1,37 +1,53 @@
 package com.momsitter.service;
 
-import com.momsitter.domain.Account;
-import com.momsitter.domain.AccountId;
-import com.momsitter.domain.Email;
+import com.momsitter.domain.*;
 import com.momsitter.repository.AccountRepository;
 import com.momsitter.repository.ParentInfoRepository;
 import com.momsitter.repository.SitterInfoRepository;
-import com.momsitter.ui.account.dto.SitterCreateRequest;
-import com.momsitter.ui.account.dto.SitterCreateResponse;
+import com.momsitter.ui.account.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
 public class AccountService {
 
     private final AccountRepository accountRepository;
-    private final SitterInfoRepository sitterInfoRepository;
-    private final ParentInfoRepository parentInfoRepository;
 
-    public AccountService(AccountRepository accountRepository, SitterInfoRepository sitterInfoRepository,
-                          ParentInfoRepository parentInfoRepository) {
+    public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        this.sitterInfoRepository = sitterInfoRepository;
-        this.parentInfoRepository = parentInfoRepository;
     }
 
     public SitterCreateResponse createSitterAccount(SitterCreateRequest request) {
-        Account account = request.toEntity();
+        Account account = request.getAccount().toEntity();
         validateAccountId(account.getAccountId());
         validateAccountEmail(account.getEmail());
         account.registerSitter(request.getSitterInfo().toEntity());
         return SitterCreateResponse.of(accountRepository.save(account));
+    }
+
+    public ParentCreateResponse createParentAccount(ParentCreateRequest request) {
+        Account account = request.getAccount().toEntity();
+        validateAccountId(account.getAccountId());
+        validateAccountEmail(account.getEmail());
+
+        ParentInfo parentInfo = extractParentInfoFrom(request);
+        account.registerParent(parentInfo);
+        return ParentCreateResponse.of(accountRepository.save(account));
+    }
+
+    private ParentInfo extractParentInfoFrom(ParentCreateRequest request) {
+        ParentInfo parentInfo = request.getParentInfo().toEntity();
+        List<Child> children = request.getParentInfo().getChildren().stream()
+                .map(ChildRequest::toEntity)
+                .collect(Collectors.toList());
+        for (Child child : children) {
+            child.addParentInfo(parentInfo);
+        }
+        return parentInfo;
     }
 
     private void validateAccountId(AccountId accountId) {

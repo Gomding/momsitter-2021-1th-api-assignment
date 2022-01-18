@@ -5,60 +5,19 @@ import com.momsitter.domain.*;
 import java.time.LocalDate;
 
 public class SitterCreateRequest {
-    private String name;
-    private LocalDate dateOfBirth;
-    private String gender;
-    private String accountId;
-    private String password;
-    private String email;
+    AccountCreateRequest account;
     private SitterInfoRequest sitterInfo;
 
     protected SitterCreateRequest() {
     }
 
-    public SitterCreateRequest(String name, LocalDate dateOfBirth, String gender, String accountId, String password, String email, SitterInfoRequest sitterInfo) {
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.gender = gender;
-        this.accountId = accountId;
-        this.password = password;
-        this.email = email;
+    public SitterCreateRequest(AccountCreateRequest account, SitterInfoRequest sitterInfo) {
+        this.account = account;
         this.sitterInfo = sitterInfo;
     }
 
-    public Account toEntity() {
-        return new Account.Builder()
-                .name(new Name(name))
-                .dateOfBirth(new DateOfBirth(dateOfBirth))
-                .gender(Gender.fromGenderName(gender))
-                .accountId(new AccountId(accountId))
-                .password(new Password(password))
-                .email(new Email(email))
-                .build();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getEmail() {
-        return email;
+    public AccountCreateRequest getAccount() {
+        return account;
     }
 
     public SitterInfoRequest getSitterInfo() {

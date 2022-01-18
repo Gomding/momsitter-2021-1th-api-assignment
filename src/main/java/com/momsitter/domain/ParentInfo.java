@@ -38,9 +38,6 @@ public class ParentInfo {
     }
 
     public void addChild(Child child) {
-        if (this.children.contains(child)) {
-            return;
-        }
         this.children.add(child);
         child.addParentInfo(this);
     }
