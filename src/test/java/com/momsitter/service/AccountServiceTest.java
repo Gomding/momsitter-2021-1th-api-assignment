@@ -2,7 +2,7 @@ package com.momsitter.service;
 
 import com.momsitter.exception.DuplicateException;
 import com.momsitter.repository.AccountRepository;
-import com.momsitter.ui.account.dto.*;
+import com.momsitter.ui.dto.account.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

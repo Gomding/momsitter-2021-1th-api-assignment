@@ -3,7 +3,7 @@ package com.momsitter.service;
 import com.momsitter.domain.*;
 import com.momsitter.exception.DuplicateException;
 import com.momsitter.repository.AccountRepository;
-import com.momsitter.ui.account.dto.*;
+import com.momsitter.ui.dto.account.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

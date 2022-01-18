@@ -5,8 +5,8 @@ import com.momsitter.domain.AccountId;
 import com.momsitter.exception.LoginFailException;
 import com.momsitter.infrastructure.JwtTokenProvider;
 import com.momsitter.repository.AccountRepository;
-import com.momsitter.ui.auth.dto.TokenRequest;
-import com.momsitter.ui.auth.dto.TokenResponse;
+import com.momsitter.ui.dto.auth.TokenRequest;
+import com.momsitter.ui.dto.auth.TokenResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

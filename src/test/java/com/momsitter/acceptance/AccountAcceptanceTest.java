@@ -2,9 +2,8 @@ package com.momsitter.acceptance;
 
 import com.momsitter.domain.Name;
 import com.momsitter.exception.ExceptionResponse;
-import com.momsitter.ui.account.dto.*;
-import com.momsitter.ui.auth.dto.TokenRequest;
-import com.momsitter.ui.auth.dto.TokenResponse;
+import com.momsitter.ui.dto.account.*;
+import com.momsitter.ui.dto.auth.TokenResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;

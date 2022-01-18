@@ -1,4 +1,4 @@
-package com.momsitter.ui.account.dto;
+package com.momsitter.ui.dto.account;
 
 public class ParentCreateRequest {
     private AccountCreateRequest account;

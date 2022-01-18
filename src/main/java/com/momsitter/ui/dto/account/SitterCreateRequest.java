@@ -1,8 +1,4 @@
-package com.momsitter.ui.account.dto;
-
-import com.momsitter.domain.*;
-
-import java.time.LocalDate;
+package com.momsitter.ui.dto.account;
 
 public class SitterCreateRequest {
     AccountCreateRequest account;

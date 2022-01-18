@@ -1,10 +1,10 @@
-package com.momsitter.ui.account;
+package com.momsitter.ui;
 
 import com.momsitter.service.AccountService;
-import com.momsitter.ui.account.dto.ParentCreateRequest;
-import com.momsitter.ui.account.dto.ParentCreateResponse;
-import com.momsitter.ui.account.dto.SitterCreateRequest;
-import com.momsitter.ui.account.dto.SitterCreateResponse;
+import com.momsitter.ui.dto.account.ParentCreateRequest;
+import com.momsitter.ui.dto.account.ParentCreateResponse;
+import com.momsitter.ui.dto.account.SitterCreateRequest;
+import com.momsitter.ui.dto.account.SitterCreateResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

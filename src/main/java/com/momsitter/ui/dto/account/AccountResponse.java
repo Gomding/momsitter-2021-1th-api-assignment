@@ -1,10 +1,11 @@
-package com.momsitter.ui.account.dto;
+package com.momsitter.ui.dto.account;
 
-import com.momsitter.domain.*;
+import com.momsitter.domain.Account;
 
 import java.time.LocalDate;
 
-public class AccountCreateRequest {
+public class AccountResponse {
+    private Long id;
     private String name;
     private LocalDate dateOfBirth;
     private String gender;
@@ -12,10 +13,8 @@ public class AccountCreateRequest {
     private String password;
     private String email;
 
-    protected AccountCreateRequest() {
-    }
-
-    public AccountCreateRequest(String name, LocalDate dateOfBirth, String gender, String accountId, String password, String email) {
+    public AccountResponse(Long id, String name, LocalDate dateOfBirth, String gender, String accountId, String password, String email) {
+        this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
@@ -24,15 +23,19 @@ public class AccountCreateRequest {
         this.email = email;
     }
 
-    public Account toEntity() {
-        return new Account.Builder()
-                .name(new Name(name))
-                .dateOfBirth(new DateOfBirth(dateOfBirth))
-                .gender(Gender.fromGenderName(gender))
-                .accountId(new AccountId(accountId))
-                .password(new Password(password))
-                .email(new Email(email))
-                .build();
+    public static AccountResponse of(Account account) {
+        return new AccountResponse(
+                account.getId(),
+                account.getName().getValue(),
+                account.getDateOfBirth().getValue(),
+                account.getGender().getGenderName(),
+                account.getAccountId().getValue(),
+                account.getPassword().getValue(),
+                account.getEmail().getValue());
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
