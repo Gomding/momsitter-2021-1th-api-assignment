@@ -17,7 +17,7 @@ public class AccountId {
     private static final String BLANK = " ";
     private static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9]*$");
 
-    @Column(name = "account_id", nullable = false)
+    @Column(name = "account_id", unique = true, nullable = false)
     private String value;
 
     protected AccountId() {

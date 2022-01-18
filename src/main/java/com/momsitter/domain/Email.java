@@ -21,7 +21,7 @@ public class Email {
     private static final Pattern PATTERN =
             Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9]+\\.[a-zA-Z]+$");
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String value;
 
     protected Email() {
