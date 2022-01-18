@@ -60,6 +60,7 @@ class AccountServiceTest {
             assertThat(accountResponse.getEmail()).isEqualTo("test@test.com");
 
             SitterInfoResponse sitterInfoResponse = response.getSitterInfo();
+            assertThat(sitterInfoResponse.getId()).isNotNull();
             assertThat(sitterInfoResponse.getMinCareAge()).isEqualTo(3);
             assertThat(sitterInfoResponse.getMaxCareAge()).isEqualTo(6);
             assertThat(sitterInfoResponse.getAboutMe()).isEqualTo("아이들을 좋아하고, 잘 돌봐유");
@@ -165,7 +166,7 @@ class AccountServiceTest {
 
             ParentInfoResponse parentInfoResponse = response.getParentInfo();
             assertThat(parentInfoResponse.getId()).isNotNull();
-            assertThat(parentInfoResponse.getChildren()).extracting("id").isNotNull();
+            assertThat(parentInfoResponse.getChildren()).extracting("id").doesNotContainNull();
             assertThat(parentInfoResponse.getChildren()).extracting("dateOfBirth").containsExactly(LocalDate.of(2020, 5, 30), LocalDate.of(2018, 3, 25));
             assertThat(parentInfoResponse.getChildren()).extracting("gender").containsExactly("남", "여");
             assertThat(parentInfoResponse.getCareRequestInfo()).isEqualTo("매일 2시간정도 아이를 봐주실 시터님 구해요:)");
