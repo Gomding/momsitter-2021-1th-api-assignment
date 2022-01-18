@@ -1,6 +1,8 @@
 package com.momsitter.ui.account;
 
 import com.momsitter.service.AccountService;
+import com.momsitter.ui.account.dto.ParentCreateRequest;
+import com.momsitter.ui.account.dto.ParentCreateResponse;
 import com.momsitter.ui.account.dto.SitterCreateRequest;
 import com.momsitter.ui.account.dto.SitterCreateResponse;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,14 @@ public class AccountController {
     @PostMapping("/sitter")
     public ResponseEntity<Void> createSitterAccount(@RequestBody SitterCreateRequest request) {
         SitterCreateResponse response = accountService.createSitterAccount(request);
+        return ResponseEntity
+                .created(URI.create("/accounts/" + response.getAccount().getId()))
+                .build();
+    }
+
+    @PostMapping("/parent")
+    public ResponseEntity<Void> createParentAccount(@RequestBody ParentCreateRequest request) {
+        ParentCreateResponse response = accountService.createParentAccount(request);
         return ResponseEntity
                 .created(URI.create("/accounts/" + response.getAccount().getId()))
                 .build();

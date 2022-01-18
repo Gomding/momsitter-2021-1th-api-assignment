@@ -20,7 +20,7 @@ public class SitterInfoResponse {
                 sitterInfo.getCareAgeRange().getMaxAge(), sitterInfo.getAboutMe());
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
