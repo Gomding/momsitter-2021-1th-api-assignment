@@ -20,7 +20,7 @@ public class Password {
     private static final Pattern PATTERN =
             Pattern.compile("^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\\-_=+]).*$");
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     @JsonIgnore
     private String value;
 
