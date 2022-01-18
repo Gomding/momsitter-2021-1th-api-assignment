@@ -40,6 +40,11 @@ public class Child {
         parentInfo.addChild(this);
     }
 
+    public void update(Child child) {
+        this.dateOfBirth = child.dateOfBirth;
+        this.gender = child.gender;
+    }
+
     public Long getId() {
         return id;
     }

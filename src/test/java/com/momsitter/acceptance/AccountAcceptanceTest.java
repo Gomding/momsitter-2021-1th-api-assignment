@@ -60,7 +60,7 @@ class AccountAcceptanceTest extends AcceptanceTest {
     @DisplayName("시터 회원의 정보를 관리한다.")
     @Test
     void manageSitterAccount() {
-        // 시터 회원 가입
+        // 시터로 회원 가입
         SitterCreateRequest createRequest = 시터_회원_가입_요청을_생성한다();
         ExtractableResponse<Response> createResponse = 시터_회원_가입을_요청(createRequest);
         시터_회원_생성됨(createResponse);
@@ -82,31 +82,63 @@ class AccountAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> sitterUpdateResponse = 내_시터_회원_정보를_수정_요청(sitterUpdateRequest, 사용자_인증토큰);
         내_시터_회원_정보_수정됨(sitterUpdateResponse);
 
-        // 시터 회원의 부모 회원 등록
-        ParentInfoRequest request = 시터_회원의_부모_회원_정보_추가_요청을_생성한다();
-        ExtractableResponse<Response> addParentInfoResponse = 시터_회원이_부모_정보_추가_요청(request, 사용자_인증토큰);
+        // 시터 회원의 부모 회원으로도 활동하기
+        ParentInfoRequest addActivityParentRequest = 시터_회원의_부모_회원으로도_활동하기를_요청을_생성한다();
+        ExtractableResponse<Response> addParentInfoResponse = 시터_회원이_부모_정보_추가_요청(addActivityParentRequest, 사용자_인증토큰);
         시터_회원에_부모_정보_추가됨(addParentInfoResponse);
     }
 
     @DisplayName("부모 회원의 정보를 관리한다.")
     @Test
     void manageParentAccount() {
+        // 부모로 회원 가입
         ParentCreateRequest request = 부모_회원_가입_요청을_생성한다();
         ExtractableResponse<Response> createResponse = 부모_회원_가입을_요청(request);
         부모_회원_생성됨(createResponse);
 
+        // 로그인
         TokenResponse 사용자_인증토큰 = 로그인_되어_있음(ACCOUNT_ID, PASSWORD);
 
+        // 내 정보 조회
         ExtractableResponse<Response> findResponse = 내_정보를_조회_요청(사용자_인증토큰);
         내_회원_정보_조회됨(findResponse);
 
+        // 회원 정보 수정
         AccountUpdateRequest updateRequest = 회원_정보_수정_요청을_생성한다();
         ExtractableResponse<Response> updateResponse = 내_회원_정보를_수정_요청(updateRequest, 사용자_인증토큰);
         내_회원_정보_수정됨(updateResponse);
 
+        // 부모 정보 수정
         ParentUpdateRequest parentUpdateRequest = 부모_회원_정보_수정_요청을_생성한다(사용자_인증토큰);
         ExtractableResponse<Response> parentUpdateResponse = 내_부모_회원_정보를_수정_요청(parentUpdateRequest, 사용자_인증토큰);
         내_부모_회원_정보_수정됨(parentUpdateResponse);
+
+        // 부모 회원의 시터 회원으로도 활동하기
+        SitterInfoRequest addActivityRequest = 부모_회원의_시터_회원으로도_활동하기_요청을_생성한다();
+        ExtractableResponse<Response> addParentInfoResponse = 부모_회원의_시터회원으로_활동하기_요청(addActivityRequest, 사용자_인증토큰);
+        부모_회원에_시터_정보_추가됨(addParentInfoResponse);
+    }
+
+    private SitterInfoRequest 부모_회원의_시터_회원으로도_활동하기_요청을_생성한다() {
+        return new SitterInfoRequest(2, 4, "언제나 내 아이처럼!, 내 가족처럼!");
+    }
+
+    private ExtractableResponse<Response> 부모_회원의_시터회원으로_활동하기_요청(SitterInfoRequest request, TokenResponse token) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .auth().oauth2(token.getAccessToken())
+                .body(request)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when().post("/api/accounts/me/sitter")
+                .then().log().all()
+                .extract();
+    }
+
+    private void 부모_회원에_시터_정보_추가됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        SitterInfoResponse sitterInfoResponse = response.as(SitterInfoResponse.class);
+        assertThat(sitterInfoResponse.getId()).isNotNull();
     }
 
     public static SitterCreateRequest 시터_회원_가입_요청을_생성한다() {
@@ -245,7 +277,7 @@ class AccountAcceptanceTest extends AcceptanceTest {
         assertThat(parentInfoResponse.getId()).isNotNull();
     }
 
-    private ParentInfoRequest 시터_회원의_부모_회원_정보_추가_요청을_생성한다() {
+    private ParentInfoRequest 시터_회원의_부모_회원으로도_활동하기를_요청을_생성한다() {
         ChildRequest childRequest1 = new ChildRequest(CHILD_DATE_OF_BIRTH1, CHILD_GENDER1);
         ChildRequest childRequest2 = new ChildRequest(CHILD_DATE_OF_BIRTH2, CHILD_GENDER2);
         return new ParentInfoRequest(Arrays.asList(childRequest1, childRequest2), PARENT_CARE_REQUEST_INFO);

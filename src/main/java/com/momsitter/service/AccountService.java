@@ -6,12 +6,10 @@ import com.momsitter.exception.InvalidArgumentException;
 import com.momsitter.exception.InvalidStateException;
 import com.momsitter.repository.AccountRepository;
 import com.momsitter.repository.ParentInfoRepository;
+import com.momsitter.repository.SitterInfoRepository;
 import com.momsitter.ui.dto.account.*;
 import com.momsitter.ui.dto.account.parent.*;
-import com.momsitter.ui.dto.account.sitter.SitterCreateRequest;
-import com.momsitter.ui.dto.account.sitter.SitterCreateResponse;
-import com.momsitter.ui.dto.account.sitter.SitterInfoResponse;
-import com.momsitter.ui.dto.account.sitter.SitterUpdateRequest;
+import com.momsitter.ui.dto.account.sitter.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +24,13 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final ParentInfoRepository parentInfoRepository;
+    private final SitterInfoRepository sitterInfoRepository;
 
-    public AccountService(AccountRepository accountRepository, ParentInfoRepository parentInfoRepository) {
+    public AccountService(AccountRepository accountRepository, ParentInfoRepository parentInfoRepository,
+                          SitterInfoRepository sitterInfoRepository) {
         this.accountRepository = accountRepository;
         this.parentInfoRepository = parentInfoRepository;
+        this.sitterInfoRepository = sitterInfoRepository;
     }
 
     @Transactional
@@ -96,6 +97,19 @@ public class AccountService {
     }
 
     @Transactional
+    public SitterInfoResponse addActivitySitter(Long id, SitterInfoRequest request) {
+        Account account = findById(id);
+        validateAccountIsSitter(account);
+        account.registerSitter(sitterInfoRepository.save(request.toEntity()));
+        return SitterInfoResponse.of(account.getSitterInfo());
+    }
+
+    private void validateAccountIsSitter(Account account) {
+        if (account.isSitter())
+            throw new InvalidStateException("이미 시터회원으로 활동 중 입니다.");
+    }
+
+    @Transactional
     public ParentInfoResponse addActivityParent(Long id, ParentInfoRequest request) {
         Account account = findById(id);
         validateAccountIsParent(account);
@@ -105,7 +119,7 @@ public class AccountService {
 
     private void validateAccountIsParent(Account account) {
         if (account.isParent())
-            throw new InvalidStateException("이미 부모회원으로 활동중입니다.");
+            throw new InvalidStateException("이미 부모회원으로 활동 중 입니다.");
     }
 
     private void validateSitterAccount(Account account) {

@@ -462,7 +462,7 @@ class AccountServiceTest {
             assertThat(response.getCareRequestInfo()).isEqualTo("매일 2시간정도 아이를 봐주실 시터님 구해요:)");
         }
 
-        @DisplayName("이미 부모회원으로 활동중인 회원에 부모 정보를 추가하려면 예외가 발생한다.")
+        @DisplayName("이미 부모회원으로 활동중인 회원이 부모로 활동을 추가하려고 하면 예외가 발생한다.")
         @Test
         void addActivityParentWithParentAccount() {
             // given
@@ -476,7 +476,42 @@ class AccountServiceTest {
             // when then
             assertThatThrownBy(() -> accountService.addActivityParent(createResponse.getAccount().getId(), parentInfoRequest))
                     .isExactlyInstanceOf(InvalidStateException.class)
-                    .hasMessage("이미 부모회원으로 활동중입니다.");
+                    .hasMessage("이미 부모회원으로 활동 중 입니다.");
+        }
+    }
+
+    @DisplayName("부모회원에 시터회원 정보 추가 테스트")
+    @Nested
+    class AddActivitySitterTest {
+
+        @DisplayName("부모회원이 시터회원으로도 활동할 수 있다.")
+        @Test
+        void addActivityParent() {
+            // given
+            ParentCreateResponse createResponse = createParentAccount();
+            SitterInfoRequest sitterInfoRequest = new SitterInfoRequest(2, 4, "완전 잘합니다!");
+
+            // when
+            SitterInfoResponse response = accountService.addActivitySitter(createResponse.getAccount().getId(), sitterInfoRequest);
+
+            // then
+            assertThat(response.getId()).isNotNull();
+            assertThat(response.getMinCareAge()).isEqualTo(2);
+            assertThat(response.getMaxCareAge()).isEqualTo(4);
+            assertThat(response.getAboutMe()).isEqualTo("완전 잘합니다!");
+        }
+
+        @DisplayName("이미 시터회원으로 활동중인 회원이 시터로 활동을 추가하려고하면 예외가 발생한다.")
+        @Test
+        void addActivityParentWithParentAccount() {
+            // given
+            SitterCreateResponse createResponse = createSitterAccount();
+            SitterInfoRequest sitterInfoRequest = new SitterInfoRequest(2, 4, "완전 잘합니다!");
+
+            // when then
+            assertThatThrownBy(() -> accountService.addActivitySitter(createResponse.getAccount().getId(), sitterInfoRequest))
+                    .isExactlyInstanceOf(InvalidStateException.class)
+                    .hasMessage("이미 시터회원으로 활동 중 입니다.");
         }
     }
 

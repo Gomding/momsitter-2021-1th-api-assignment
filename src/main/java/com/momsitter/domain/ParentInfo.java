@@ -44,8 +44,17 @@ public class ParentInfo {
     }
 
     public void updateInfo(List<Child> children, String careRequestInfo) {
-        this.children = children;
+        updateChildren(children);
         this.careRequestInfo = careRequestInfo;
+    }
+
+    private void updateChildren(List<Child> children) {
+        for (Child a : this.children) {
+            for (Child b : children) {
+                if (a.equals(b))
+                    a.update(b);
+            }
+        }
     }
 
     public Long getId() {

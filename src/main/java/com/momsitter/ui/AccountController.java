@@ -4,10 +4,7 @@ import com.momsitter.domain.Account;
 import com.momsitter.service.AccountService;
 import com.momsitter.ui.dto.account.*;
 import com.momsitter.ui.dto.account.parent.*;
-import com.momsitter.ui.dto.account.sitter.SitterCreateRequest;
-import com.momsitter.ui.dto.account.sitter.SitterCreateResponse;
-import com.momsitter.ui.dto.account.sitter.SitterInfoResponse;
-import com.momsitter.ui.dto.account.sitter.SitterUpdateRequest;
+import com.momsitter.ui.dto.account.sitter.*;
 import com.momsitter.ui.webconfig.AccountAuthenticationPrinciple;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +61,13 @@ public class AccountController {
     public ResponseEntity<ParentInfoResponse> updateParentInfoOfMine(@RequestBody ParentUpdateRequest request,
                                                                      @AccountAuthenticationPrinciple Account account) {
         ParentInfoResponse response = accountService.updateParentInfo(account.getId(), request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/me/sitter")
+    public ResponseEntity<SitterInfoResponse> addActivitySitterInfo(@RequestBody SitterInfoRequest request,
+                                                                    @AccountAuthenticationPrinciple Account account) {
+        SitterInfoResponse response = accountService.addActivitySitter(account.getId(), request);
         return ResponseEntity.ok(response);
     }
 
