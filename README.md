@@ -1,5 +1,12 @@
 
-# momsitter-2021-1th-api-assignment  
+# momsitter-2021-1th-api-assignment
+
+## 과제 중 작성한 문서
+* [요구사항 정리](docs/Todo.md)
+* [Entity 구조](docs/Entity.md)
+* [API 스펙 문서](docs/API_Specification.md)
+* [DB Creation Query](docs/database.sql)
+* [구현중 고민한 부분](docs/Note.md)
   
 맘시터 백엔드 개발 직무에 지원해주셔서 감사합니다. 본 과제를 통해 향후 맘시터의 동료로서 서비스를 더 잘 이해하고, 맘시터 서비스 개발 업무를 미리 생각해볼 수 있는 좋은 기회가 되기를 희망합니다.  
   
