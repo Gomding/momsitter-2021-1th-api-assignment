@@ -1,1 +1,3 @@
 rootProject.name = 'momsitter-2021-1th-api-assignment'
+
+include 'assignment-api', 'assignment-domain', 'authorization-jwt'

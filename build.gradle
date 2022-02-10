@@ -4,12 +4,29 @@ plugins {
     id 'java'
 }
 
-group = 'com.momsitter'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
 repositories {
     mavenCentral()
+}
+
+allprojects {
+    group 'com.momsitter'
+    version '1.0'
+
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
 dependencies {
@@ -30,8 +47,4 @@ dependencies {
     // docs
     implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-}
-
-test {
-    useJUnitPlatform()
 }
