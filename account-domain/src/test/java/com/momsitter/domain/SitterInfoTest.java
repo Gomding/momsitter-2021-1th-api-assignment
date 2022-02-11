@@ -1,7 +1,5 @@
 package com.momsitter.domain;
 
-import com.momsitter.domain.CareAgeRange;
-import com.momsitter.domain.SitterInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

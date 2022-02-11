@@ -16,9 +16,9 @@ public class SwaggerConfig {
     public Docket api() {
         // /swagger-ui/index.html 로 접근
         return new Docket(DocumentationType.SWAGGER_2)
-            .select()
-            .apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.ant("/api/**"))
-            .build();
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/api/**"))
+                .build();
     }
 }

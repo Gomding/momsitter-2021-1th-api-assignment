@@ -1,6 +1,5 @@
 package com.momsitter.domain;
 
-import com.momsitter.domain.DateOfBirth;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

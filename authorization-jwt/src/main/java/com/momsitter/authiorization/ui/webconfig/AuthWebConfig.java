@@ -1,6 +1,6 @@
 package com.momsitter.authiorization.ui.webconfig;
 
-import com.momsitter.authiorization.service.*;
+import com.momsitter.authiorization.service.AuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

@@ -1,6 +1,5 @@
 package com.momsitter.domain;
 
-import com.momsitter.domain.Name;
 import com.momsitter.exception.InvalidArgumentException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
