@@ -1,4 +1,4 @@
-package com.momsitter.ui.webconfig;
+package com.momsitter.authiorization.ui.webconfig;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package com.momsitter.ui.dto.auth;
+package com.momsitter.authiorization.ui.dto.auth;
 
 public class TokenRequest {
 

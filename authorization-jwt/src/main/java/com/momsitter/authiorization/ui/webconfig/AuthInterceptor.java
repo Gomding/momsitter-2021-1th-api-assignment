@@ -1,8 +1,8 @@
-package com.momsitter.ui.webconfig;
+package com.momsitter.authiorization.ui.webconfig;
 
-import com.momsitter.exception.UnauthorizedException;
-import com.momsitter.infrastructure.AuthorizationExtractor;
-import com.momsitter.infrastructure.JwtTokenProvider;
+import com.momsitter.authiorization.infrastructure.AuthorizationExtractor;
+import com.momsitter.authiorization.infrastructure.JwtTokenProvider;
+import com.momsitter.common.exception.UnauthorizedException;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

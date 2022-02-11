@@ -1,13 +1,13 @@
-package com.momsitter.service;
+package com.momsitter.authiorization.service;
 
+import com.momsitter.authiorization.exception.InvalidAuthTokenException;
+import com.momsitter.authiorization.exception.LoginFailException;
+import com.momsitter.authiorization.infrastructure.JwtTokenProvider;
+import com.momsitter.authiorization.ui.dto.auth.TokenRequest;
+import com.momsitter.authiorization.ui.dto.auth.TokenResponse;
 import com.momsitter.domain.Account;
 import com.momsitter.domain.AccountId;
-import com.momsitter.exception.InvalidAuthTokenException;
-import com.momsitter.exception.LoginFailException;
-import com.momsitter.infrastructure.JwtTokenProvider;
-import com.momsitter.repository.AccountRepository;
-import com.momsitter.ui.dto.auth.TokenRequest;
-import com.momsitter.ui.dto.auth.TokenResponse;
+import com.momsitter.domain.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

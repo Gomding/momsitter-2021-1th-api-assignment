@@ -1,0 +1,5 @@
+security:
+  jwt:
+    access-token:
+      secret-key: chalie_secret_key_is_secret
+      expire-length: 1800000

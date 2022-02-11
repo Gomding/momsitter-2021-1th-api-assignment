@@ -1,10 +1,10 @@
-package com.momsitter.service;
+package com.momsitter.authiorization.service;
 
+import com.momsitter.authiorization.exception.LoginFailException;
+import com.momsitter.authiorization.ui.dto.auth.TokenRequest;
+import com.momsitter.authiorization.ui.dto.auth.TokenResponse;
 import com.momsitter.domain.*;
-import com.momsitter.exception.LoginFailException;
-import com.momsitter.repository.AccountRepository;
-import com.momsitter.ui.dto.auth.TokenRequest;
-import com.momsitter.ui.dto.auth.TokenResponse;
+import com.momsitter.domain.repository.AccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

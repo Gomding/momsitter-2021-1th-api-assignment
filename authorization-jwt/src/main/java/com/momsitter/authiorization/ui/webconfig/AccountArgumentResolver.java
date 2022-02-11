@@ -1,8 +1,8 @@
-package com.momsitter.ui.webconfig;
+package com.momsitter.authiorization.ui.webconfig;
 
+import com.momsitter.authiorization.infrastructure.AuthorizationExtractor;
 import com.momsitter.domain.Account;
-import com.momsitter.infrastructure.AuthorizationExtractor;
-import com.momsitter.service.AuthService;
+import com.momsitter.authiorization.service.AuthService;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
