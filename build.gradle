@@ -8,7 +8,7 @@ repositories {
     mavenCentral()
 }
 
-allprojects {
+subprojects {
     group 'com.momsitter'
     version '1.0'
 
