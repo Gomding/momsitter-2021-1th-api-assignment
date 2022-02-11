@@ -49,8 +49,23 @@ dependencies {
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 }
 
-project('assignment-domain') {
+project('account-domain') {
     dependencies {
+        implementation project (':common-exception')
+    }
+}
+
+project('account-api') {
+    dependencies {
+        implementation project (':account-domain')
+        implementation project (':authorization-jwt')
+        implementation project (':common-exception')
+    }
+}
+
+project('authorization-jwt') {
+    dependencies {
+        implementation project (':account-domain')
         implementation project (':common-exception')
     }
 }
