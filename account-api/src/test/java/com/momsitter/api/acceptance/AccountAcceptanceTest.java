@@ -1,17 +1,17 @@
-package com.momsitter.acceptance;
+package com.momsitter.api.acceptance;
 
+import com.momsitter.authiorization.ui.dto.auth.TokenResponse;
+import com.momsitter.common.exception.ExceptionResponse;
 import com.momsitter.domain.Name;
-import com.momsitter.exception.ExceptionResponse;
-import com.momsitter.ui.dto.account.AccountCreateRequest;
-import com.momsitter.ui.dto.account.AccountInfoResponse;
-import com.momsitter.ui.dto.account.AccountResponse;
-import com.momsitter.ui.dto.account.AccountUpdateRequest;
-import com.momsitter.ui.dto.account.parent.*;
-import com.momsitter.ui.dto.account.sitter.SitterCreateRequest;
-import com.momsitter.ui.dto.account.sitter.SitterInfoRequest;
-import com.momsitter.ui.dto.account.sitter.SitterInfoResponse;
-import com.momsitter.ui.dto.account.sitter.SitterUpdateRequest;
-import com.momsitter.ui.dto.auth.TokenResponse;
+import com.momsitter.service.dto.AccountCreateRequest;
+import com.momsitter.service.dto.AccountInfoResponse;
+import com.momsitter.service.dto.AccountResponse;
+import com.momsitter.service.dto.AccountUpdateRequest;
+import com.momsitter.service.dto.parent.*;
+import com.momsitter.service.dto.sitter.SitterCreateRequest;
+import com.momsitter.service.dto.sitter.SitterInfoRequest;
+import com.momsitter.service.dto.sitter.SitterInfoResponse;
+import com.momsitter.service.dto.sitter.SitterUpdateRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.momsitter.acceptance.AuthAcceptanceTest.로그인_되어_있음;
+import static com.momsitter.api.acceptance.AuthAcceptanceTest.로그인_되어_있음;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("회원 관련 인수 테스트")

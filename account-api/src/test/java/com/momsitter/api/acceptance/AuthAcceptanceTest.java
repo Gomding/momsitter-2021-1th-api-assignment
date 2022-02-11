@@ -1,8 +1,8 @@
-package com.momsitter.acceptance;
+package com.momsitter.api.acceptance;
 
-import com.momsitter.exception.ExceptionResponse;
-import com.momsitter.ui.dto.auth.TokenRequest;
-import com.momsitter.ui.dto.auth.TokenResponse;
+import com.momsitter.authiorization.ui.dto.auth.TokenRequest;
+import com.momsitter.authiorization.ui.dto.auth.TokenResponse;
+import com.momsitter.common.exception.ExceptionResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import static com.momsitter.acceptance.AccountAcceptanceTest.*;
+import static com.momsitter.api.acceptance.AccountAcceptanceTest.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("로그인 관련 인수 테스트")

@@ -1,11 +1,13 @@
-package com.momsitter.ui;
+package com.momsitter.api.ui;
 
+import com.momsitter.authiorization.ui.webconfig.AccountAuthenticationPrinciple;
 import com.momsitter.domain.Account;
 import com.momsitter.service.AccountService;
-import com.momsitter.ui.dto.account.*;
-import com.momsitter.ui.dto.account.parent.*;
-import com.momsitter.ui.dto.account.sitter.*;
-import com.momsitter.ui.webconfig.AccountAuthenticationPrinciple;
+import com.momsitter.service.dto.AccountInfoResponse;
+import com.momsitter.service.dto.AccountResponse;
+import com.momsitter.service.dto.AccountUpdateRequest;
+import com.momsitter.service.dto.parent.*;
+import com.momsitter.service.dto.sitter.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +47,7 @@ public class AccountController {
 
     @PutMapping("/me")
     public ResponseEntity<AccountResponse> updateAccountInfoOfMine(@RequestBody AccountUpdateRequest request,
-                                                                       @AccountAuthenticationPrinciple Account account) {
+                                                                   @AccountAuthenticationPrinciple Account account) {
         AccountResponse response = accountService.updateAccountInfo(account.getId(), request);
         return ResponseEntity.ok(response);
     }
@@ -73,7 +75,7 @@ public class AccountController {
 
     @PostMapping("/me/parent")
     public ResponseEntity<ParentInfoResponse> addActivityParentInfo(@RequestBody ParentInfoRequest request,
-                                                            @AccountAuthenticationPrinciple Account account) {
+                                                                    @AccountAuthenticationPrinciple Account account) {
         ParentInfoResponse response = accountService.addActivityParent(account.getId(), request);
         return ResponseEntity.ok(response);
     }

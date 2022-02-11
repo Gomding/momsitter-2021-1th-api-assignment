@@ -1,4 +1,4 @@
-package com.momsitter.acceptance;
+package com.momsitter.api.acceptance;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;

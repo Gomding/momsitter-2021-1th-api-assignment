@@ -1,7 +1,7 @@
 package com.momsitter;
 
 import com.momsitter.domain.*;
-import com.momsitter.repository.AccountRepository;
+import com.momsitter.domain.repository.AccountRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;

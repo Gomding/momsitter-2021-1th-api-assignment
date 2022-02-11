@@ -1,4 +1,4 @@
-package com.momsitter.acceptance;
+package com.momsitter.api.acceptance;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
