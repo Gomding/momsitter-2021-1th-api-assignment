@@ -1,7 +1,7 @@
 package com.momsitter.api.acceptance;
 
-import com.momsitter.authiorization.ui.dto.auth.TokenRequest;
-import com.momsitter.authiorization.ui.dto.auth.TokenResponse;
+import com.momsitter.authiorization.service.dto.TokenRequest;
+import com.momsitter.authiorization.service.dto.TokenResponse;
 import com.momsitter.common.exception.ExceptionResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;

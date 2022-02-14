@@ -1,8 +1,8 @@
 package com.momsitter.authiorization.service;
 
 import com.momsitter.authiorization.exception.LoginFailException;
-import com.momsitter.authiorization.ui.dto.auth.TokenRequest;
-import com.momsitter.authiorization.ui.dto.auth.TokenResponse;
+import com.momsitter.authiorization.service.dto.TokenRequest;
+import com.momsitter.authiorization.service.dto.TokenResponse;
 import com.momsitter.domain.*;
 import com.momsitter.domain.repository.AccountRepository;
 import org.junit.jupiter.api.DisplayName;

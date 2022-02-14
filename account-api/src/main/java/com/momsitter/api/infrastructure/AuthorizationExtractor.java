@@ -1,4 +1,4 @@
-package com.momsitter.authiorization.infrastructure;
+package com.momsitter.api.infrastructure;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;

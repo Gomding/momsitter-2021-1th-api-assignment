@@ -1,6 +1,6 @@
 package com.momsitter.api.acceptance;
 
-import com.momsitter.authiorization.ui.dto.auth.TokenResponse;
+import com.momsitter.authiorization.service.dto.TokenResponse;
 import com.momsitter.common.exception.ExceptionResponse;
 import com.momsitter.domain.Name;
 import com.momsitter.service.dto.AccountCreateRequest;

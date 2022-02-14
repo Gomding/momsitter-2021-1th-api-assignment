@@ -1,6 +1,6 @@
-package com.momsitter.authiorization.ui.webconfig;
+package com.momsitter.api.ui.webconfig;
 
-import com.momsitter.authiorization.infrastructure.AuthorizationExtractor;
+import com.momsitter.api.infrastructure.AuthorizationExtractor;
 import com.momsitter.authiorization.service.AuthService;
 import com.momsitter.domain.Account;
 import org.springframework.core.MethodParameter;

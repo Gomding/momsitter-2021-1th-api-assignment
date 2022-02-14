@@ -1,8 +1,8 @@
 package com.momsitter.api.ui;
 
 import com.momsitter.authiorization.service.AuthService;
-import com.momsitter.authiorization.ui.dto.auth.TokenRequest;
-import com.momsitter.authiorization.ui.dto.auth.TokenResponse;
+import com.momsitter.authiorization.service.dto.TokenRequest;
+import com.momsitter.authiorization.service.dto.TokenResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

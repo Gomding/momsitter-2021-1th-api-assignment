@@ -1,4 +1,4 @@
-package com.momsitter.authiorization.ui.webconfig;
+package com.momsitter.api.ui.webconfig;
 
 import com.momsitter.authiorization.service.AuthService;
 import org.springframework.context.annotation.Bean;
