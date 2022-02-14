@@ -26,7 +26,7 @@ public class AuthInterceptor implements HandlerInterceptor {
      * Preflight 요청에는 토큰이 없기때문에 토큰 검증을 생략하도록 구현
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (isPreflightRequest(request)) {
             return true;
         }
