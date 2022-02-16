@@ -1,0 +1,32 @@
+name: Application-Test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [ opened , synchronize , reopened ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: local
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install JDK 11
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+
+      - name: Test
+        run: ./gradlew test --info
