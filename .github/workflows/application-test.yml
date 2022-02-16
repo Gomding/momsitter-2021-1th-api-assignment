@@ -1,0 +1,14 @@
+name: Application-Test
+on:
+  pull_request:
+    types: [ opened , synchronize , reopened ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Test
+        run: ./gradlew test --info
