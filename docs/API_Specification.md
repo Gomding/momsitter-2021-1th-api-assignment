@@ -21,17 +21,21 @@ Request URI:	/api/accounts/sitter
 ```json
 {
   "account": {
-    "accountId": "string",
-    "dateOfBirth": "string",
-    "email": "string",
-    "gender": "string",
-    "name": "string",
-    "password": "string"
+    "name": "박민영",
+    "dateOfBirth": [
+      1992,
+      5,
+      30
+    ],
+    "gender": "남",
+    "accountId": "parkSitter92",
+    "password": "park1234!@",
+    "email": "test@test.com"
   },
   "sitterInfo": {
-    "aboutMe": "string",
-    "maxAge": 0,
-    "minAge": 0
+    "minAge": 3,
+    "maxAge": 5,
+    "aboutMe": "아이들의 가장 가까운 친구, 돌보는걸 너무 잘해요"
   }
 }
 ```
