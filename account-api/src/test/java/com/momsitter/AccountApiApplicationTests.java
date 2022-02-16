@@ -12,8 +12,4 @@ class AccountApiApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    void failTest() {
-        assertThat(1234).isEqualTo(12);
-    }
 }
