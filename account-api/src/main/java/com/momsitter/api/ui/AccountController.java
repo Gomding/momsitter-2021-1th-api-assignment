@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -78,5 +79,11 @@ public class AccountController {
                                                                     @AccountAuthenticationPrinciple Account account) {
         ParentInfoResponse response = accountService.addActivityParent(account.getId(), request);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/accounts")
+    public ResponseEntity<List<AccountInfoResponse>> findAllAccounts(@AccountAuthenticationPrinciple Account account) {
+        List<AccountInfoResponse> accounts = accountService.findAllAccounts();
+        return ResponseEntity.ok(accounts);
     }
 }

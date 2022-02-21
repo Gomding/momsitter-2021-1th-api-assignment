@@ -165,4 +165,11 @@ public class AccountService {
         if (accountRepository.existsByEmail(email))
             throw new DuplicateException("입력하신 이메일로 가입한 계정이 이미 존재합니다.");
     }
+
+    public List<AccountInfoResponse> findAllAccounts() {
+        List<Account> accounts = accountRepository.findAll();
+        return accounts.stream()
+                .map(AccountInfoResponse::of)
+                .collect(Collectors.toList());
+    }
 }
