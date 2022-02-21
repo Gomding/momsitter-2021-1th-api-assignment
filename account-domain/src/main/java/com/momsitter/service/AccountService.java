@@ -172,4 +172,18 @@ public class AccountService {
                 .map(AccountInfoResponse::of)
                 .collect(Collectors.toList());
     }
+
+    public List<AccountInfoResponse> findAllSitterAccounts() {
+        List<Account> accounts = accountRepository.findAllBySitterInfoIsNotNull();
+        return accounts.stream()
+                .map(AccountInfoResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    public List<AccountInfoResponse> findAllParentAccounts() {
+        List<Account> accounts = accountRepository.findAllByParentInfoIsNotNull();
+        return accounts.stream()
+                .map(AccountInfoResponse::of)
+                .collect(Collectors.toList());
+    }
 }

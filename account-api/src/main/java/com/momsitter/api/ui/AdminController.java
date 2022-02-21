@@ -19,9 +19,15 @@ public class AdminController {
         this.accountService = accountService;
     }
 
-    @GetMapping("/accounts")
-    public ResponseEntity<List<AccountInfoResponse>> findAllAccounts() {
-        List<AccountInfoResponse> accounts = accountService.findAllAccounts();
+    @GetMapping("/sitters")
+    public ResponseEntity<List<AccountInfoResponse>> findAllSitterAccounts() {
+        List<AccountInfoResponse> accounts = accountService.findAllSitterAccounts();
+        return ResponseEntity.ok(accounts);
+    }
+
+    @GetMapping("/parents")
+    public ResponseEntity<List<AccountInfoResponse>> findAllParentAccounts() {
+        List<AccountInfoResponse> accounts = accountService.findAllSitterAccounts();
         return ResponseEntity.ok(accounts);
     }
 }
