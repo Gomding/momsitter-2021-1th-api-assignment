@@ -27,7 +27,7 @@ public class AdminController {
 
     @GetMapping("/parents")
     public ResponseEntity<List<AccountInfoResponse>> findAllParentAccounts() {
-        List<AccountInfoResponse> accounts = accountService.findAllSitterAccounts();
+        List<AccountInfoResponse> accounts = accountService.findAllParentAccounts();
         return ResponseEntity.ok(accounts);
     }
 }
