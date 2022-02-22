@@ -195,6 +195,7 @@ public class AccountService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public AccountInfoResponse updateSitterAccountInfo(Long id, SitterAccountUpdateRequest request) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new InvalidArgumentException("존재하지 않는 회원입니다."));
