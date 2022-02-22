@@ -200,7 +200,7 @@ public class AccountService {
                 .orElseThrow(() -> new InvalidArgumentException("존재하지 않는 회원입니다."));
         account.updateSitterAccountnfo(
                 new Name(request.getName()),
-                new Email(request.getEamil()),
+                new Email(request.getEmail()),
                 request.getMinCareAge(),
                 request.getMaxCareAge(),
                 request.getAboutMe());

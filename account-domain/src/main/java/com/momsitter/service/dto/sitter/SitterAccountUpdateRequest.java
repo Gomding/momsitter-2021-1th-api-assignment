@@ -2,7 +2,7 @@ package com.momsitter.service.dto.sitter;
 
 public class SitterAccountUpdateRequest {
     private String name;
-    private String eamil;
+    private String email;
     private int minCareAge;
     private int maxCareAge;
     private String aboutMe;
@@ -10,9 +10,9 @@ public class SitterAccountUpdateRequest {
     protected SitterAccountUpdateRequest() {
     }
 
-    public SitterAccountUpdateRequest(String name, String eamil, int minCareAge, int maxCareAge, String aboutMe) {
+    public SitterAccountUpdateRequest(String name, String email, int minCareAge, int maxCareAge, String aboutMe) {
         this.name = name;
-        this.eamil = eamil;
+        this.email = email;
         this.minCareAge = minCareAge;
         this.maxCareAge = maxCareAge;
         this.aboutMe = aboutMe;
@@ -22,8 +22,8 @@ public class SitterAccountUpdateRequest {
         return name;
     }
 
-    public String getEamil() {
-        return eamil;
+    public String getEmail() {
+        return email;
     }
 
     public int getMinCareAge() {
