@@ -186,4 +186,24 @@ public class AccountService {
                 .map(AccountInfoResponse::of)
                 .collect(Collectors.toList());
     }
+
+    public List<ChildResponse> findAllChildrenByParentId(Long parentId) {
+        ParentInfo parentInfo = parentInfoRepository.findById(parentId)
+                .orElseThrow(() -> new InvalidArgumentException("존재하지 않는 부모 회원입니다."));
+        return parentInfo.getChildren().stream()
+                .map(ChildResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    public AccountInfoResponse updateSitterAccountInfo(Long id, SitterAccountUpdateRequest request) {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new InvalidArgumentException("존재하지 않는 회원입니다."));
+        account.updateSitterAccountnfo(
+                new Name(request.getName()),
+                new Email(request.getEamil()),
+                request.getMinCareAge(),
+                request.getMaxCareAge(),
+                request.getAboutMe());
+        return AccountInfoResponse.of(account);
+    }
 }

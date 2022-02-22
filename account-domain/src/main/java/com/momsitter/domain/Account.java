@@ -108,6 +108,12 @@ public class Account {
         return !this.password.equals(new Password(password));
     }
 
+    public void updateSitterAccountnfo(Name name, Email email, int minCareAge, int maxCareAge, String aboutMe) {
+        this.name = name;
+        this.email = email;
+        updateSitterInfo(minCareAge, maxCareAge, aboutMe);
+    }
+
     public void updateInfo(Gender gender, Password password, Email email) {
         this.gender = gender;
         this.password = password;
