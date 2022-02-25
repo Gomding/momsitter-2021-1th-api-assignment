@@ -1,4 +1,4 @@
-package com.momsitter.api.ui.webconfig;
+package com.momsitter.api.webconfig;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

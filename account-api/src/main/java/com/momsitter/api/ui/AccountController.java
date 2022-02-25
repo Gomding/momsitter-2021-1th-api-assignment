@@ -1,6 +1,6 @@
 package com.momsitter.api.ui;
 
-import com.momsitter.api.ui.webconfig.AccountAuthenticationPrinciple;
+import com.momsitter.api.webconfig.AccountAuthenticationPrinciple;
 import com.momsitter.domain.Account;
 import com.momsitter.service.AccountService;
 import com.momsitter.service.dto.AccountInfoResponse;
