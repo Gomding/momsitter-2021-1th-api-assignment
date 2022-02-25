@@ -1,0 +1,10 @@
+momsitter:
+  feature:
+    toggle:
+      vendor: unleash
+      unleash:
+        app-name: "test-appName"
+        instance-id: "test-instanceId"
+        environment: "test-environment"
+        api-url: "http://localhost:4000/test-apiUrl"
+        api-token: "test-apiToken"
