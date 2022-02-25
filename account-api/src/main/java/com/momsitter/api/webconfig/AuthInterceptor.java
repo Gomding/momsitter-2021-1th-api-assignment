@@ -1,4 +1,4 @@
-package com.momsitter.api.ui.webconfig;
+package com.momsitter.api.webconfig;
 
 import com.momsitter.api.infrastructure.AuthorizationExtractor;
 import com.momsitter.authiorization.infrastructure.JwtTokenProvider;

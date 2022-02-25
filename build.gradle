@@ -40,6 +40,7 @@ project('account-api') {
         implementation project (':account-domain')
         implementation project (':authorization-jwt')
         implementation project (':common-exception')
+        implementation project (':feature-toggle')
     }
 }
 

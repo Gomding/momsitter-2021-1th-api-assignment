@@ -1,3 +1,4 @@
 rootProject.name = 'momsitter-2021-1th-api-assignment'
 
-include 'account-api', 'account-domain', 'authorization-jwt', 'common-exception', 'multi-module-test'
+include 'account-api', 'account-domain', 'authorization-jwt', 'common-exception',
+        'multi-module-test', 'feature-toggle'
