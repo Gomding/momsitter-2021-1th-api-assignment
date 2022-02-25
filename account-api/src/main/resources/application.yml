@@ -1,3 +1,13 @@
 spring:
   profiles:
     include: domain, auth
+momsitter:
+  feature:
+    toggle:
+      vendor: unleash
+      unleash:
+        app-name: "on-boarding-project"
+        instance-id: "my-park-onboarding"
+        environment: "ON_BOARDING_ENV"
+        api-url: "https://toggle.devmom-sitter.in/api/"
+        api-token: "*:development.7892eecd66154f9c8c0622f1fa91fedafeec8d1753d6fc5d87e90433"
