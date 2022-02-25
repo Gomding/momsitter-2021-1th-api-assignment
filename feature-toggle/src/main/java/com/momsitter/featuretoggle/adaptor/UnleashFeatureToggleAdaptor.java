@@ -1,11 +1,11 @@
 package com.momsitter.featuretoggle.adaptor;
 
 import io.getunleash.Unleash;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnBean(Unleash.class)
+@ConditionalOnProperty(prefix = "momsitter.feature.toggle", name = "vendor", havingValue = "unleash")
 public class UnleashFeatureToggleAdaptor implements IFeatureToggle {
 
     private final Unleash unleashFeatureToggle;

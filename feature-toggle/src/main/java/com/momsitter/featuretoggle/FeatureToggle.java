@@ -28,6 +28,7 @@ public class FeatureToggle {
     private IFeatureToggle findFeatureToggleAdaptorByVendorName() {
         return adaptors.stream()
                 .filter(adaptor -> adaptor.isSupported(FeatureToggleVendor.valueOf(featureToggleVendorName.toUpperCase())))
-                .findAny().orElseThrow(() -> new UnsupportedOperationException("지원하지 않는 Feature Toggle 입니다."));
+                .findAny()
+                .orElseThrow(() -> new UnsupportedOperationException("지원하지 않는 Feature Toggle 입니다."));
     }
 }
